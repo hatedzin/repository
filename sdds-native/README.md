@@ -31,6 +31,32 @@ O host mantém a DLL carregada até sair para preservar as classes de janela.
 
 ## Material recebido e validação
 
+## EXE de console com key
+
+`dist/SddsKey.exe` é um executável Windows x64 compilado com MinGW-w64.
+Ele pede somente a key, aguarda Enter e consulta `http://127.0.0.1:8085/api/license`.
+Somente após resposta positiva mostra `inicie combat arms brazil valofe`.
+Key inválida, vencida ou revogada não libera essa mensagem. O prazo começa no
+primeiro uso, conforme o servidor. O EXE não tem senha ou key mestra embutida.
+
+No pacote `SddsKey-Windows.zip`:
+
+1. Extraia tudo. Abra `sdds-cheats/configurar-admin.cmd` para criar o admin,
+   caso ainda não exista. O servidor requer Python 3.11+.
+2. Abra `sdds-cheats/start.bat` e mantenha aberto.
+3. Use `sdds-cheats/admin.cmd` para gerar uma key de 30 ou 60 dias.
+4. Execute `SddsKey.exe`, digite a key e pressione Enter.
+
+Se já possui contas/keys, preserve seu `sdds.sqlite3` e use seu servidor existente.
+O EXE não precisa de Python, mas o servidor incluído precisa. O serviço é local;
+para distribuir o cliente a outras máquinas, um servidor remoto HTTPS ainda precisa
+ser implementado e configurado. Este EXE não carrega a DLL nem injeta no jogo.
+
+A compilação do EXE foi concluída no Linux via MinGW; sua execução no Windows
+permanece não verificada. A DLL e o host Visual Studio continuam sem compilação.
+
+## Referências das offsets
+
 O arquivo enviado contém oito TXT com trechos e offsets, sem um SDK ou projeto
 completo. Os originais estão preservados em `reference/`, como documentação;
 não são compilados nem tratados como offsets válidos para uma build específica.
@@ -38,4 +64,4 @@ não são compilados nem tratados como offsets válidos para uma build específi
 
 Este ambiente é Linux e não possui MSVC nem Windows SDK. A estrutura dos projetos
 foi verificada, mas compilação e execução no Windows permanecem não verificadas.
-Não há DLL compilada incluída no pacote.
+Não há DLL compilada incluída no pacote. O EXE de console descrito acima está incluído.
