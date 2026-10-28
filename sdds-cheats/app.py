@@ -17,7 +17,7 @@ def digest(value):
 
 
 def password_hash(password, salt=None):
-    if len(password) < 12:
+    if salt is None and len(password) < 12:
         raise ValueError('A senha precisa ter pelo menos 12 caracteres.')
     salt = salt or secrets.token_hex(16)
     return salt + ':' + hashlib.scrypt(password.encode(), salt=bytes.fromhex(salt), n=16384, r=8, p=1).hex()
@@ -189,10 +189,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
     store = Store(args.db)
     if args.create_admin:
-        password = getpass.getpass('Senha do administrador: ')
-        if password != getpass.getpass('Repita a senha: '):
-            raise SystemExit('As senhas não conferem.')
-        store.user(args.create_admin, password, admin=True)
-        print('Administrador criado.')
+        if store.db.execute('SELECT 1 FROM users WHERE name=?', (args.create_admin,)).fetchone():
+            raise SystemExit('Este usuário já existe. Use a senha cadastrada no admin.cmd. Nenhuma conta foi alterada.')
+        try:
+            password = getpass.getpass('Crie uma senha com pelo menos 12 caracteres: ')
+            if password != getpass.getpass('Repita a senha: '):
+                raise SystemExit('As senhas não conferem. Execute configurar-admin.cmd novamente.')
+            store.user(args.create_admin, password, admin=True)
+            print('Administrador criado. Agora inicie start.bat e abra admin.cmd.')
+        except ValueError as exc:
+            raise SystemExit(str(exc)) from None
     else:
         web.run_app(create_app(store, args.secure_cookies), host='127.0.0.1', port=args.port, access_log=None)

@@ -24,7 +24,8 @@ O inicializador Windows foi incluído, mas não foi executado neste ambiente Lin
 
 ### Terminal Windows (CMD)
 
-1. Crie o administrador uma única vez: `start.bat --create-admin admin`.
+1. Abra `configurar-admin.cmd` uma única vez. Ele cria o usuário `admin`
+   e pede que você defina uma senha de pelo menos 12 caracteres. Não há senha padrão.
 2. Inicie `start.bat` e mantenha essa janela aberta (servidor).
 3. Abra `admin.cmd` para entrar como administrador e gerar, listar ou revogar keys.
 4. Abra `usuario.cmd` e informe apenas a key de assinatura.
@@ -38,6 +39,11 @@ Não há DLL, injeção, detecção do processo nem integração com o jogo nest
 Senhas e keys digitadas pelo usuário não aparecem no terminal.
 Uma assinatura ativa valida o acesso ao serviço de licenças; não inicia um jogo.
 Os arquivos CMD exigem Windows e não foram executados no ambiente Linux.
+
+Se o admin mostrar “Usuário ou senha inválidos”, verifique se criou a conta
+nessa mesma pasta e se está usando a senha escolhida no assistente.
+Ao atualizar o pacote, feche o servidor antigo e reinicie `start.bat`.
+Preserve `sdds.sqlite3`: ele contém suas contas e licenças.
 
 Instalação manual:
 
