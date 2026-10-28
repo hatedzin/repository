@@ -1,5 +1,11 @@
 # Sdds cheats — contas e licenças
 
+Key padrão: `sddskey`. Tem 30 dias a partir do primeiro uso. É pública e
+compartilhada por todos que a conhecem, sem privilégios administrativos.
+Reiniciar o servidor não renova o prazo nem desfaz sua revogação. Na lista
+de keys do admin, ela é a primeira criada em um banco novo. Não apague o banco
+para atualizar. Reinicie o servidor após atualizar `app.py`.
+
 Serviço independente de login com painel web local, administrador e keys de
 30 ou 60 dias. Não contém cliente de jogo nem integração com BattlEye.
 O ZIP recebido contém oito arquivos de texto, sem projeto compilável.

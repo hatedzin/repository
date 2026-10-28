@@ -33,11 +33,15 @@ O host mantém a DLL carregada até sair para preservar as classes de janela.
 
 ## EXE de console com key
 
+A key padrão é `sddskey`, válida por 30 dias após o primeiro uso.
+Use a versão atualizada do servidor incluída neste pacote. Ela mantém o prazo
+e a revogação da key entre reinícios, sem conceder acesso de administrador.
+
 `dist/SddsKey.exe` é um executável Windows x64 compilado com MinGW-w64.
 Ele pede somente a key, aguarda Enter e consulta `http://127.0.0.1:8085/api/license`.
 Somente após resposta positiva mostra `inicie combat arms brazil valofe`.
 Key inválida, vencida ou revogada não libera essa mensagem. O prazo começa no
-primeiro uso, conforme o servidor. O EXE não tem senha ou key mestra embutida.
+primeiro uso, conforme o servidor. A validação sempre é feita no servidor.
 
 No pacote `SddsKey-Windows.zip`:
 

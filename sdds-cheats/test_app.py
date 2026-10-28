@@ -114,6 +114,23 @@ class AuthTests(unittest.IsolatedAsyncioTestCase):
         revoked = await self.user.post('/api/license',json={'key':key['key']})
         self.assertEqual(revoked.status,401)
 
+    async def test_default_key_persists_without_reset(self):
+        first = await self.user.post('/api/license',json={'key':'sddskey'})
+        self.assertEqual(first.status,200)
+        expiry = (await first.json())['expires_utc_unix']
+        reopened = Store(Path(self.temp.name) / 'test.sqlite3')
+        reopened.db.close()
+        second = await self.user.post('/api/license',json={'key':'sddskey'})
+        self.assertEqual((await second.json())['expires_utc_unix'],expiry)
+        from app import digest
+        row = self.store.db.execute('SELECT u.admin FROM users u JOIN licenses l ON l.user_id=u.id WHERE l.hash=?',(digest('sddskey'),)).fetchone()
+        self.assertEqual(row[0],0)
+        with self.store.db:
+            self.store.db.execute('UPDATE licenses SET revoked=1 WHERE hash=?',(digest('sddskey'),))
+        reopened = Store(Path(self.temp.name) / 'test.sqlite3')
+        reopened.db.close()
+        self.assertEqual((await self.user.post('/api/license',json={'key':'sddskey'})).status,401)
+
 
 if __name__ == '__main__':
     unittest.main()

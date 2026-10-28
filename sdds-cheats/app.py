@@ -39,6 +39,9 @@ class Store:
           days INTEGER NOT NULL CHECK(days IN (30,60)), user_id INTEGER REFERENCES users(id), revoked INTEGER NOT NULL DEFAULT 0);
         CREATE TABLE IF NOT EXISTS sessions(hash TEXT PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id), expires REAL NOT NULL);
         ''')
+        # Provision once; preserve activation, expiration and revocation on restarts.
+        with self.db:
+            self.db.execute('INSERT OR IGNORE INTO licenses(hash,days) VALUES(?,30)', (digest('sddskey'),))
 
     def user(self, name, password, admin=False):
         if not 3 <= len(name) <= 64:
@@ -110,7 +113,7 @@ def create_app(store, secure=False):
                 return web.json_response({'error': 'Tente novamente em 10 minutos.'}, status=429)
             if action == 'license':
                 key = data['key']
-                if not isinstance(key, str) or not 20 <= len(key) <= 128:
+                if not isinstance(key, str) or not 1 <= len(key) <= 128:
                     raise ValueError()
                 with store.db:
                     license = store.db.execute('SELECT * FROM licenses WHERE hash=?', (digest(key),)).fetchone()

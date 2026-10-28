@@ -58,7 +58,7 @@ int main() {
     std::cout << "=== SDDS CHEATS ===\n\nDigite sua key e pressione Enter: " << std::flush;
     std::string key;
     if (!std::getline(std::cin,key)) return 1;
-    const bool valid = key.size() >= 20 && key.size() <= 128 && key.rfind("SDDS-",0) == 0
+    const bool valid = !key.empty() && key.size() <= 128
         && std::all_of(key.begin(),key.end(),[](unsigned char c) {return std::isalnum(c) || c == '-' || c == '_';});
     if (!valid) {std::cout << "\nKey invalida.\n";Pause();return 1;}
     std::cout << "\nValidando key...\n";
