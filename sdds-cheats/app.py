@@ -95,7 +95,7 @@ def create_app(store, secure=False):
     async def api(request):
         action = request.match_info['action']
         data = await request.json() if request.method == 'POST' else {}
-        if action in ('register', 'login') and request.method == 'POST':
+        if action in ('register', 'login', 'license') and request.method == 'POST':
             ip = request.remote
             now = time.time()
             if len(attempts) > 10000:
@@ -108,6 +108,25 @@ def create_app(store, secure=False):
             attempts[ip] = (start, count + 1)
             if count >= 15:
                 return web.json_response({'error': 'Tente novamente em 10 minutos.'}, status=429)
+            if action == 'license':
+                key = data['key']
+                if not isinstance(key, str) or not 20 <= len(key) <= 128:
+                    raise ValueError()
+                with store.db:
+                    license = store.db.execute('SELECT * FROM licenses WHERE hash=?', (digest(key),)).fetchone()
+                    if not license or license['revoked']:
+                        return web.json_response({'error': 'Key inválida ou revogada.'}, status=401)
+                    uid = license['user_id']
+                    if uid is None:
+                        expiry = time.time() + license['days'] * 86400
+                        cursor = store.db.execute('INSERT INTO users(name,password,expires) VALUES(?,?,?)',
+                                                  ('key-' + secrets.token_hex(16), password_hash(secrets.token_urlsafe(32)), expiry))
+                        uid = cursor.lastrowid
+                        store.db.execute('UPDATE licenses SET user_id=? WHERE id=?', (uid, license['id']))
+                    expiry = store.db.execute('SELECT expires FROM users WHERE id=?', (uid,)).fetchone()[0]
+                if expiry <= time.time():
+                    return web.json_response({'error': 'Assinatura vencida.'}, status=403)
+                return web.json_response({'active': True, 'expires_utc_unix': expiry})
             name, password = data['name'], data['password']
             if not isinstance(name, str) or not isinstance(password, str) or len(password) > 256:
                 raise ValueError()

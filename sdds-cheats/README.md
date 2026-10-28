@@ -27,10 +27,14 @@ O inicializador Windows foi incluído, mas não foi executado neste ambiente Lin
 1. Crie o administrador uma única vez: `start.bat --create-admin admin`.
 2. Inicie `start.bat` e mantenha essa janela aberta (servidor).
 3. Abra `admin.cmd` para entrar como administrador e gerar, listar ou revogar keys.
-4. Abra `usuario.cmd` para criar conta, entrar e informar a key de assinatura.
+4. Abra `usuario.cmd` e informe apenas a key de assinatura.
 
 Os dois clientes usam o serviço local na porta 8085 e o mesmo banco do painel.
-O usuário informa conta, senha e key; não há login somente por key.
+O CMD do usuário valida a key e mostra “Inicie o Combat Arms Brazil ou Engine.exe”.
+O prazo começa no primeiro uso e não reinicia ao abrir o CMD novamente.
+A key funciona como credencial: qualquer pessoa que a possua pode utilizá-la.
+O painel web mantém seu fluxo de conta e senha. O CMD admin também exige conta e senha.
+Não há DLL, injeção, detecção do processo nem integração com o jogo neste pacote.
 Senhas e keys digitadas pelo usuário não aparecem no terminal.
 Uma assinatura ativa valida o acesso ao serviço de licenças; não inicia um jogo.
 Os arquivos CMD exigem Windows e não foram executados no ambiente Linux.

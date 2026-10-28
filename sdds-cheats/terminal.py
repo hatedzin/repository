@@ -106,7 +106,16 @@ def main():
     parser.add_argument('--admin', action='store_true')
     args = parser.parse_args()
     try:
-        run(Client('http://127.0.0.1:8085'), args.admin)
+        client = Client('http://127.0.0.1:8085')
+        if args.admin:
+            run(client, True)
+        else:
+            print('\n=== SDDS CHEATS ===')
+            key = getpass.getpass('Digite sua key: ').strip()
+            state = client.call('license', {'key': key})
+            show_subscription(state)
+            print('\nInicie o Combat Arms Brazil ou Engine.exe')
+            print('Este programa valida a licença. Não inclui DLL nem injeta no jogo.')
         return 0
     except (EOFError, KeyboardInterrupt):
         print('\nEncerrado.')

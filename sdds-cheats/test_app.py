@@ -91,6 +91,24 @@ class AuthTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn('Assinatura: ATIVA',output.getvalue())
         self.assertEqual(self.store.db.execute('SELECT count(*) FROM sessions').fetchone()[0],0)
 
+    async def test_key_only_login(self):
+        key = self.store.issue(30)
+        first = await self.user.post('/api/license', json={'key':key['key']})
+        self.assertEqual(first.status,200)
+        expiry = (await first.json())['expires_utc_unix']
+        second = await self.user.post('/api/license', json={'key':key['key']})
+        self.assertEqual((await second.json())['expires_utc_unix'],expiry)
+        bad = await self.user.post('/api/license',json={'key':'SDDS-'+'wrong'*6})
+        self.assertEqual(bad.status,401)
+        with self.store.db:
+            self.store.db.execute('UPDATE users SET expires=0 WHERE id=(SELECT user_id FROM licenses WHERE id=?)',(key['id'],))
+        expired = await self.user.post('/api/license',json={'key':key['key']})
+        self.assertEqual(expired.status,403)
+        with self.store.db:
+            self.store.db.execute('UPDATE licenses SET revoked=1 WHERE id=?',(key['id'],))
+        revoked = await self.user.post('/api/license',json={'key':key['key']})
+        self.assertEqual(revoked.status,401)
+
 
 if __name__ == '__main__':
     unittest.main()
