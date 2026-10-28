@@ -1,0 +1,1373 @@
+// CCBAClientInfoMgr
+namespace c_client_connection_mgr {
+	//
+	// Member
+	//
+	inline  constexpr auto m_force_disconnect { 0x146C };
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto init_multiplayer   { image_base + 0x00451080u };
+}
+ 
+// CCBAGameClientShell
+namespace c_game_client_shell {
+	//
+	// Member
+	//
+	inline  constexpr auto m_client_connection_mgr = 0x118;
+	inline  constexpr auto m_global_client_mgr     = 0x120;
+	inline  constexpr auto m_game_type             = 0x92B0;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto clr_char_info_ack       = image_base + 0x000E02E0u;
+ 
+	//
+	// Virtual method ( index )
+	//
+	inline  constexpr auto update                  = 0x3;
+	inline  constexpr auto get_lobby_server        = 0x2E;
+	inline  constexpr auto get_client_info_mgr     = 0x31;
+	inline  constexpr auto get_bot_info_mgr        = 0x32;
+	inline  constexpr auto get_interface_mgr       = 0x33;
+	inline  constexpr auto get_player_mgr          = 0x34;
+	inline  constexpr auto get_last_key_input_time = 0x37;
+	inline  constexpr auto get_sfx_mgr             = 0x3B;
+}
+ 
+// CHUDCrosshair
+namespace c_hud_crosshair {
+	//
+	// Method
+	//
+	inline  constexpr auto draw_frozen     = image_base + 0x0000'1D90u;
+	inline  constexpr auto draw_infected   = image_base + 0x0000'1DE0u;
+	inline  constexpr auto set_draw_damage = image_base + 0x0000'1E90u;
+	inline  constexpr auto draw_snowball   = image_base + 0x0000'66B0u;
+}
+ 
+// CCBAHUDMgr
+namespace c_hud_mgr {
+	//
+	// Member
+	//
+	inline  constexpr auto m_crosshair = 0x3C;
+}
+ 
+// CHUDXMLRadar
+namespace c_hud_xml_radar {
+	//
+	// Pointer to instance
+	//
+	inline  constexpr auto instance = image_base + 0x012E7070u;
+ 
+	//
+	// Virtual method
+	//
+	inline  constexpr auto update = 0x4;
+}
+ 
+// CHUDXMLUsingItems
+namespace c_hud_xml_using_items {
+	//
+	// 
+	//
+	inline  constexpr auto instance          = image_base + 0x012E707Cu;
+ 
+	//
+	// Member
+	//
+	inline  constexpr auto m_using_scan_item = 0xC1;
+	inline  constexpr auto m_shared_scan_pda = 0xC2;
+	inline  constexpr auto m_area_scan_dist  = 0xC4;
+}
+ 
+// CHUDXMLVoteReq
+namespace c_hud_xml_vote_req {
+	//
+	// Instance
+	//
+	inline  constexpr auto instance          = image_base + 0x012E7078u;
+ 
+	//
+	// Member
+	//
+	inline  constexpr auto m_elite_moderator        = 0x88;
+	inline  constexpr auto m_same_team_num          = 0x8C;
+	inline  constexpr auto m_total_user             = 0x90;
+	inline  constexpr auto m_kick_block_finish_time = 0x98;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto show                     = image_base + 0x00082D10u;
+}
+ 
+// CInvenCharacterModel
+namespace c_inven_character_model {
+	//
+	// Method
+	//
+	inline  constexpr auto preview = image_base + 0x00198DC0u;
+}
+ 
+// CCBAInterfaceMgr
+namespace c_interface_mgr {
+	//
+	// Member
+	//
+	inline  constexpr auto m_game_state     = 0x104;
+	inline  constexpr auto m_res_mgr		= 0x1AB0;
+	inline  constexpr auto m_loading_screen = 0x3584;
+	inline  constexpr auto m_hud_mgr		= 0x3734;
+	inline  constexpr auto m_screen_mgr		= 0x377C;
+	inline  constexpr auto m_popup_mgr      = 0x4FC8;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto game_exit        = image_base + 0x000FB200u;
+	inline  constexpr auto switch_to_screen = image_base + 0x003195A0u;
+}
+ 
+// CInterfaceResMgr
+namespace c_interface_res_mgr {
+	//
+	// Virtual
+	//
+	inline  constexpr auto get_texture = 0x0u;
+}
+ 
+// CLoadingScreen
+namespace c_loading_screen {
+	//
+	// Member
+	//
+	inline  constexpr auto m_str_background = 0x54;
+	inline  constexpr auto m_mode_name      = 0x70;
+	inline  constexpr auto m_map_name       = 0x8C;
+	inline  constexpr auto m_map_desc       = 0xA8;
+	inline  constexpr auto m_mode_id        = 0xC8;
+}
+ 
+// CLobbyServer
+namespace c_lobby_server {
+	//
+	// Method
+	//
+	inline  constexpr auto send_chat = image_base + 0x0029E160u;
+}
+ 
+// CXMLScreenBackground
+namespace c_screen_background {
+	//
+	// Member
+	//
+	inline  constexpr auto m_character_model = 0x54F8;
+}
+ 
+// CCBAScreenMgr
+namespace c_screen_mgr {
+	//
+	// Member
+	//
+	inline  constexpr auto m_screen = 0x158;
+}
+ 
+// CXMLScreenWaitingRoom
+namespace c_screen_waiting_room {
+	//
+	// Method
+	//
+	inline  constexpr auto check_start_condition = image_base + 0x002703E0u;
+}
+ 
+// CXMLPopupMgr
+namespace c_xml_popup_mgr {
+	//
+	// Method
+	//
+	inline  constexpr auto show_message_box = image_base + 0x003BC270u;
+}
+ 
+// Anonymous namespace
+namespace anonymous {
+	//
+	// Method
+	//
+	inline  constexpr auto load_string_w = image_base + 0x00372C10u;
+}
+ 
+// CModelButeMgr::CFacePiece
+namespace c_face_piece {
+	//
+	// Member
+	//
+	inline  constexpr auto m_name      = 0x4;
+	inline  constexpr auto m_hair_id   = 0x84;
+	inline  constexpr auto m_goggle_id = 0x88;
+	inline  constexpr auto m_gear_id   = 0xC4;
+}
+ 
+// CModelButeMgr::CFigureType
+namespace c_figure_type {
+	//
+	// Member
+	//
+	inline  constexpr auto m_name            = 0x0;
+	inline  constexpr auto m_figure_type_[removed] = 0x40;
+	inline  constexpr auto m_variable_speed  = 0x44;
+	inline  constexpr auto m_variable_jump   = 0x48;
+	inline  constexpr auto m_variable_damage = 0x4C;
+	inline  constexpr auto m_variable_weight = 0x50;
+	inline  constexpr auto m_hp              = 0x7C;
+	inline  constexpr auto m_speed           = 0x80;
+	inline  constexpr auto m_jump            = 0x84;
+	inline  constexpr auto m_shooting        = 0x88;
+	inline  constexpr auto m_damage_down     = 0x8C;
+	inline  constexpr auto m_hp_inc_percent  = 0x94;
+	inline  constexpr auto m_max_stamina     = 0x164;
+}
+ 
+// CModelButeMgr::CHand
+namespace c_hand {
+	//
+	// Member
+	//
+	inline  constexpr auto m_name = 0x0;
+}
+ 
+// CModelButeMgr::CHeadPiece
+namespace c_head_piece {
+	//
+	// Member
+	//
+	inline  constexpr auto m_name            = 0x0;
+	inline  constexpr auto m_hair_model_file = 0x40;
+	inline  constexpr auto m_gear_id         = 0xB8;
+}
+ 
+// CModelButeMgr::CModel
+namespace c_model {
+	//
+	// Member
+	//
+	inline  constexpr auto m_name                     = 0x0;
+	inline  constexpr auto m_model_skeleton           = 0x80;
+	inline  constexpr auto m_model_type               = 0x84;
+	inline  constexpr auto m_model_figure_type        = 0x88;
+	inline  constexpr auto m_body_surface_type        = 0x8C;
+	inline  constexpr auto m_head_surface_type        = 0x90;
+	inline  constexpr auto m_max_hit_points           = 0x98;
+	inline  constexpr auto m_model_armor              = 0x9C;
+	inline  constexpr auto m_model_max_armor          = 0xA0;
+	inline  constexpr auto m_interface_max_health     = 0xA4;
+	inline  constexpr auto m_default_face_id          = 0x644;
+	inline  constexpr auto m_infected_overidable      = 0x6FC;
+	inline  constexpr auto m_host_infected_overidable = 0x700;
+}
+ 
+// CModelButeMgr::CNode
+namespace c_node {
+	//
+	// Member
+	//
+	inline  constexpr auto m_name              = 0x0;
+	inline  constexpr auto m_damage_factor     = 0x144;
+	inline  constexpr auto m_model_node_parent = 0x148;
+ 
+	inline  constexpr auto m_hit_location      = 0x14C;
+	inline  constexpr auto m_hit_radius        = 0x150;
+	inline  constexpr auto m_hit_radius_unk    = 0x154;
+	inline  constexpr auto m_hit_priority      = 0x158;
+}
+ 
+// CModelButeMgr::CSkeleton
+namespace c_skeleton {
+	//
+	// Member
+	//
+	inline  constexpr auto m_nodes                        = 0x0;
+	inline  constexpr auto m_num_nodes                    = 0x4;
+	inline  constexpr auto m_model_node_default_hit       = 0x108;
+	inline  constexpr auto m_model_tracking_nodes_look_at = 0x10C;
+	inline  constexpr auto m_model_tracking_nodes_aim_at  = 0x110;
+}
+ 
+// CModelButeMgr::CTrackingNode
+namespace c_tracking_node {
+	//
+	// Member
+	//
+	inline  constexpr auto m_name = 0x0;
+}
+ 
+// 
+namespace c_tracking_node_group {
+	//
+	// Member
+	//
+	inline  constexpr auto m_tracking_nodes     = 0x0;
+	inline  constexpr auto m_num_tracking_nodes = 0x4;
+}
+ 
+// CModelButeMgr::CTrackingNodeGroup
+namespace c_model_bute_mgr {
+	//
+	// Pointer to instance
+	//
+	inline  constexpr auto instance                   = image_base + 0x0135E854;
+ 
+	inline  constexpr auto m_num_models               = 0x15E0;
+	inline  constexpr auto m_models                   = 0x15E4;
+	inline  constexpr auto m_overidable_model_offset  = 0x15F0;
+	inline  constexpr auto m_overidable_model_count   = 0x15F4;
+	inline  constexpr auto m_num_skeletons            = 0x15F8;
+	inline  constexpr auto m_skeletons                = 0x15FC;
+	inline  constexpr auto m_num_head_pieces          = 0x1608;
+	inline  constexpr auto m_head_pieces              = 0x160C;
+	inline  constexpr auto m_num_models_id            = 0x1610;
+	inline  constexpr auto m_models_id                = 0x1614;
+	inline  constexpr auto m_num_figure_type          = 0x1618;
+	inline  constexpr auto m_figure_type              = 0x161C;
+	inline  constexpr auto m_num_hands                = 0x1620;
+	inline  constexpr auto m_hands                    = 0x1624;
+	inline  constexpr auto m_num_face_pieces          = 0x1628;
+	inline  constexpr auto m_face_pieces              = 0x162C;
+}
+ 
+// CModificationMgr
+namespace c_modification_mgr {
+	//
+	// Pointer to instance
+	//
+	inline  constexpr auto instance = image_base + 0x013540D0;
+ 
+	inline  constexpr auto m_weapon_mod_list{ 0x15E0 };
+	inline  constexpr auto m_num_weapon_mods{ 0x15E4 };
+	inline  constexpr auto m_head_mod_list  { 0x15E8 };
+	inline  constexpr auto m_num_head_mods  { 0x15EC };
+	inline  constexpr auto m_face_mod_list  { 0x15F0 };
+	inline  constexpr auto m_num_face_mods  { 0x15F4 };
+	inline  constexpr auto m_vest_mod_list  { 0x15F8 };
+	inline  constexpr auto m_num_vest_mods  { 0x15FC };
+	inline  constexpr auto m_mod_item_list  { 0x1600 };
+	inline  constexpr auto m_num_mod_items  { 0x1604 };
+}
+ 
+// CharInfo
+namespace c_char_info {
+	//
+	// Instance
+	//
+	inline  constexpr auto instance               = image_base + 0x0135A910;
+ 
+	//
+	// Member
+	//
+	inline  constexpr auto m_gm_account           = 0x00;
+	inline  constexpr auto m_client_type          = 0x04;
+	inline  constexpr auto m_uid                  = 0x08;
+	inline  constexpr auto m_server_id            = 0x0C;
+	inline  constexpr auto m_cid                  = 0x14;
+	inline  constexpr auto m_sid                  = 0x18;
+	inline  constexpr auto m_channel_name         = 0x3C;
+	inline  constexpr auto m_server_name          = 0x58;
+	inline  constexpr auto m_password             = 0x74;
+	inline  constexpr auto m_channel_id           = 0x90;
+	inline  constexpr auto m_rid                  = 0x94;
+	inline  constexpr auto m_room_user_key        = 0x98;
+	inline  constexpr auto m_name                 = 0xC0;
+	inline  constexpr auto m_num_kills            = 0x124;
+	inline  constexpr auto m_num_deaths           = 0x128;
+	inline  constexpr auto m_money                = 0x12C;
+	inline  constexpr auto m_cash_point           = 0x130;
+	inline  constexpr auto m_rank                 = 0x134;
+	inline  constexpr auto m_experience           = 0x170;
+	inline  constexpr auto m_clan_uid             = 0x190;
+	inline  constexpr auto m_clan_exp             = 0x1A4;
+	inline  constexpr auto m_clan_point           = 0x1A8;
+	inline  constexpr auto m_clan_level           = 0x1AC;
+	inline  constexpr auto m_clan_name            = 0x1B4;
+	inline  constexpr auto m_clan_mark_emblem_id  = 0x1CC;
+	inline  constexpr auto m_clan_mark_back_id    = 0x1D0;
+	inline  constexpr auto m_exp_double_flag      = 0x1D8;
+	inline  constexpr auto m_money_double_flag    = 0x1D9;
+ 
+	inline  constexpr auto m_model_mgr            = 0x21C;
+ 
+	inline  constexpr auto m_version              = 0x234;
+	inline  constexpr auto m_referee_account      = 0x4A1;
+	inline  constexpr auto m_game_helper          = 0x4A2;
+	inline  constexpr auto m_name_color           = 0x4AC;
+	inline  constexpr auto m_clan_name_color      = 0x4B0;
+	inline  constexpr auto m_crosshair_color      = 0x4B4;
+	inline  constexpr auto m_nation_index         = 0x4C0;
+	inline  constexpr auto m_cover_rank_mark_id   = 0x568;
+	inline  constexpr auto m_cover_nation_mark_id = 0x56C;
+	inline  constexpr auto m_name_background      = 0x570;
+	inline  constexpr auto m_name_background_line = 0x574;
+}
+ 
+// CCharModelInfoMgr
+namespace c_char_model_info_mgr {
+	//
+	// Member
+	//
+	inline  constexpr auto m_model_bute_reader   = 0x4;
+	inline  constexpr auto m_model_figure_type   = 0x150;
+	inline  constexpr auto m_model_id            = 0x154;
+	inline  constexpr auto m_head_piece_id       = 0x158;
+	inline  constexpr auto m_face_piece_id       = 0x15C;
+	inline  constexpr auto m_default_face_id     = 0x160;
+	inline  constexpr auto m_grade               = 0x164;
+	inline  constexpr auto m_special_mark_id     = 0x16C;
+	inline  constexpr auto m_clan_mark_id        = 0x170;
+	inline  constexpr auto m_team                = 0x174;
+	inline  constexpr auto m_backpack_id         = 0x178;
+	inline  constexpr auto m_goggle_id           = 0x17C;
+	inline  constexpr auto m_goggle_take_off     = 0x180;
+	inline  constexpr auto m_branch_uniform      = 0x184;
+	inline  constexpr auto m_branch_helmet       = 0x188;
+	inline  constexpr auto m_military_uniform    = 0x18C;
+	inline  constexpr auto m_face_id             = 0x190;
+	inline  constexpr auto m_mercenary_id        = 0x194;
+	inline  constexpr auto m_cosmetic_character  = 0x198;
+	inline  constexpr auto m_cosmetic_helmet     = 0x19C;
+	inline  constexpr auto m_cosmetic_goggle     = 0x1A0;
+	inline  constexpr auto m_cosmetic_vest       = 0x1A4;
+	inline  constexpr auto m_cosmetic_backpack   = 0x1A8;
+	inline  constexpr auto m_model_color         = 0x1AC;
+	inline  constexpr auto m_helmet_color        = 0x1B0;
+	inline  constexpr auto m_goggle_color        = 0x1B4;
+	inline  constexpr auto m_backpack_color      = 0x1B8;
+	inline  constexpr auto m_dash_gauge          = 0x1BC;
+	inline  constexpr auto m_dash_gauge_rec      = 0x1C0;
+	inline  constexpr auto m_dash_max_stamina    = 0x1C4;
+	inline  constexpr auto m_max_velocity        = 0x1C8;
+	inline  constexpr auto m_clan_emblem         = 0x1CC;
+	inline  constexpr auto m_clan_background     = 0x24C;
+	inline  constexpr auto m_clan_emblem_id      = 0x2CC;
+	inline  constexpr auto m_clan_background_id  = 0x2D0;
+	inline  constexpr auto m_overidable_model    = 0x2D4;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto get_model_bute_reader = image_base + 0x00D5F30u;
+}
+ 
+// CGadgetDisabler
+namespace c_gadget_disabler {
+	//
+	// Member
+	//
+	inline  constexpr auto m_timer      = 0x4;
+	inline  constexpr auto m_object     = 0x8;
+	inline  constexpr auto m_disabling  = 0x10;
+	inline  constexpr auto m_total_time = 0x14;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto update       = image_base + 0x005147C0u;
+}
+ 
+// ModelButeReader
+namespace c_model_bute_reader {
+	//
+	// Member
+	//
+	inline  constexpr auto m_model_id           = 0x0;
+	inline  constexpr auto m_model_figure_type  = 0x4;
+	inline  constexpr auto m_head_piece_id      = 0x8;
+	inline  constexpr auto m_face_piece_id      = 0xC;
+	inline  constexpr auto m_level              = 0x10;
+	inline  constexpr auto m_clan_mark_id       = 0x14;
+	inline  constexpr auto m_team_mark_id       = 0x18;
+	inline  constexpr auto m_backpack           = 0x1C;
+	inline  constexpr auto m_goggle             = 0x20;
+	inline  constexpr auto m_goggle_default     = 0x24;
+	inline  constexpr auto m_camo_index         = 0x25;
+	inline  constexpr auto m_clan_emblem        = 0x28;
+	inline  constexpr auto m_clan_background    = 0xA8;
+	inline  constexpr auto m_clan_emblem_id     = 0x128;
+	inline  constexpr auto m_clan_background_id = 0x12C;
+	inline  constexpr auto m_overidable_model   = 0x130;
+	inline  constexpr auto m_cosmetic_character = 0x134;
+	inline  constexpr auto m_cosmetic_helmet    = 0x138;
+	inline  constexpr auto m_cosmetic_goggle    = 0x13C;
+	inline  constexpr auto m_cosmetic_vest      = 0x140;
+	inline  constexpr auto m_cosmetic_backpack  = 0x144;
+	inline  constexpr auto m_model_color        = 0x148;
+	inline  constexpr auto m_helmet_color       = 0x149;
+	inline  constexpr auto m_goggle_color       = 0x14A;
+	inline  constexpr auto m_backpack_color     = 0x14B;
+}
+ 
+// CCBAMoveMgr
+namespace c_move_mgr {
+	//
+	// Member
+	//
+	inline  constexpr auto m_object                = 0x14;
+	inline  constexpr auto m_control_flags         = 0x24;
+	inline  constexpr auto m_last_control_flags    = 0x28;
+	inline  constexpr auto m_body_on_lader         = 0x34;
+	inline  constexpr auto m_standing_on_surface   = 0x58;
+	inline  constexpr auto m_on_ground             = 0x68;
+	inline  constexpr auto m_jumped                = 0x84;
+	inline  constexpr auto m_jump_requested        = 0x8C;
+	inline  constexpr auto m_gravity               = 0xB8;
+	inline  constexpr auto m_char_fx               = 0x378;
+	inline  constexpr auto m_damage_timer          = 0x384;
+	inline  constexpr auto m_knockback_value       = 0x394;
+	inline  constexpr auto m_stunned_timer         = 0x398;
+	inline  constexpr auto m_stunned_move_penalty  = 0x3A8;
+	inline  constexpr auto m_snowball_frozen       = 0x3E0;
+	inline  constexpr auto m_jump_delay            = 0x478;
+	inline  constexpr auto m_slow_timer            = 0x4EC;
+	inline  constexpr auto m_slow_speed_by_damage  = 0x4FC;
+	inline  constexpr auto m_interpolated_position = 0x538;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto add_damage_penalty       = image_base + 0x002E9850u;
+	inline  constexpr auto add_stunned_move_penalty = image_base + 0x002E9970u;
+	inline  constexpr auto set_slow_speed_by_damage = image_base + 0x002E9E50u;
+	inline  constexpr auto update_normal_motion     = image_base + 0x002E4240u;
+}
+ 
+// CPlayerCamera
+namespace c_player_camera {
+	//
+	// Member
+	//
+	inline  constexpr auto m_target                        = 0x0;
+	inline  constexpr auto m_client_de                     = 0x4;
+	inline  constexpr auto m_rotation                      = 0x8;
+	inline  constexpr auto m_position                      = 0x18;
+	inline  constexpr auto m_last_target_position          = 0x24;
+	inline  constexpr auto m_last_opt_position             = 0x30;
+	inline  constexpr auto m_last_target_rotation          = 0x3C;
+	inline  constexpr auto m_orientation                   = 0x4C;
+	inline  constexpr auto m_save_orientation              = 0x50;
+	inline  constexpr auto m_camera_mode                   = 0x54;
+	inline  constexpr auto m_save_camera_mode              = 0x58;
+	inline  constexpr auto m_point_type                    = 0x5C;
+	inline  constexpr auto m_opt_x                         = 0x60;
+	inline  constexpr auto m_opt_y                         = 0x64;
+	inline  constexpr auto m_opt_z                         = 0x68;
+	inline  constexpr auto m_camera_dist_back              = 0x6C;
+	inline  constexpr auto m_camera_dist_up                = 0x70;
+	inline  constexpr auto m_camera_dist_diag              = 0x74;
+	inline  constexpr auto m_slide                         = 0x78;
+	inline  constexpr auto m_target_chase_offset           = 0x7C;
+	inline  constexpr auto m_target_point_at_offset        = 0x88;
+	inline  constexpr auto m_target_static_chase_offset    = 0x94;
+	inline  constexpr auto m_custom_offset                 = 0xA0;
+	inline  constexpr auto m_circle_height_offset          = 0xA4;
+	inline  constexpr auto m_circle_radius                 = 0xA8;
+	inline  constexpr auto m_circle_time                   = 0xAC;
+	inline  constexpr auto m_going_first_person_start      = 0xB0;
+	inline  constexpr auto m_going_first_person_transition = 0xB4;
+	inline  constexpr auto m_start_circle                  = 0xB8;
+	inline  constexpr auto m_circle_start_time             = 0xBC;
+	inline  constexpr auto m_save_angles_y                 = 0xC0;
+	inline  constexpr auto m_restore_first_person          = 0xC4;
+	inline  constexpr auto m_target_first_person_offset    = 0xC8;
+	inline  constexpr auto m_collision_object              = 0xD4;
+	inline  constexpr auto m_player_dead                   = 0xD8;
+	inline  constexpr auto m_model_view                    = 0xDC;
+	inline  constexpr auto m_camera_dist                   = 0xE0;
+	inline  constexpr auto m_eye_socket                    = 0xE4;
+	inline  constexpr auto m_eye_node                      = 0xE8;
+	inline  constexpr auto m_first_chase_target_set        = 0xEC;
+	inline  constexpr auto m_first_chase                   = 0xED;
+	inline  constexpr auto m_first_chase_pos               = 0xF0;
+	inline  constexpr auto m_script_start_pos              = 0xFC;
+	inline  constexpr auto m_script_target_pos             = 0x108;
+	inline  constexpr auto m_script_move_time              = 0x114;
+	inline  constexpr auto m_script_start_time             = 0x118;
+	inline  constexpr auto m_change_dead_cam_target        = 0x11C;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto camera_update                   = image_base + 0x0039C9D0u;
+}
+ 
+// CCBAPlayerMgr
+namespace c_player_mgr {
+	//
+	// Member
+	//
+	inline  constexpr auto m_camera_offset_mgr             = 0x8;
+	inline  constexpr auto m_gadget_disabler               = 0xC;
+	inline  constexpr auto m_move_mgr                      = 0x10;
+	inline  constexpr auto m_client_weapon_mgr             = 0x18;
+	inline  constexpr auto m_target_mgr                    = 0x1C;
+	inline  constexpr auto m_yaw_backup                    = 0x2C;
+	inline  constexpr auto m_pitch_backup                  = 0x30;
+	inline  constexpr auto m_player_flags                  = 0x34;
+	inline  constexpr auto m_player_state                  = 0x38;
+	inline  constexpr auto m_player_ext_state              = 0x3C;
+	inline  constexpr auto m_rotation                      = 0x44;
+	inline  constexpr auto m_view_angles                   = 0x54;
+	inline  constexpr auto m_fire_jitter_pitch             = 0x60;
+	inline  constexpr auto m_fire_jitter_yaw               = 0x64;
+	inline  constexpr auto m_fire_jitter_time              = 0x6C;
+	inline  constexpr auto m_fire_back_jitter              = 0x70;
+	inline  constexpr auto m_player_pitch                  = 0x74;
+	inline  constexpr auto m_player_yaw                    = 0x78;
+	inline  constexpr auto m_player_roll                   = 0x7C;
+	inline  constexpr auto m_using_external_camera         = 0xB4;
+	inline  constexpr auto m_shake_amount                  = 0xCC;
+	inline  constexpr auto m_zoom_view                     = 0x11C;
+	inline  constexpr auto m_zooming                       = 0x120;
+	inline  constexpr auto m_zooming_in                    = 0x124;
+	inline  constexpr auto m_camera                        = 0x13C;
+	inline  constexpr auto m_player_camera                 = 0x140;
+	inline  constexpr auto m_player_info_change_flags      = 0x154;
+	inline  constexpr auto m_player_info_last_send_time    = 0x158;
+	inline  constexpr auto m_player_info_last_send_frame   = 0x15C;
+	inline  constexpr auto m_player_info_last_send_time_ms = 0x160;
+	inline  constexpr auto m_last_hit_location             = 0x1A4;
+	inline  constexpr auto m_damage_type                   = 0x1A8;
+	inline  constexpr auto m_last_damage                   = 0x1AC;
+	inline  constexpr auto m_dot_sighted                   = 0x1D8;
+	inline  constexpr auto m_fire                          = 0x1D9;
+	inline  constexpr auto m_fall_and_death                = 0x1DA;
+	inline  constexpr auto m_ai_freeze                     = 0x1DB;
+	inline  constexpr auto m_can_bomb_plant                = 0x1DD;
+	inline  constexpr auto m_team                          = 0x1F8;
+	inline  constexpr auto m_fire_type                     = 0x20C;
+	inline  constexpr auto m_fire_random_seed              = 0x210;
+	inline  constexpr auto m_aim_yaw                       = 0x4A4;
+	inline  constexpr auto m_aim_pitch                     = 0x4A8;
+	inline  constexpr auto m_twist_yaw                     = 0x4AC;
+	inline  constexpr auto m_aim_pitch_vel                 = 0x4B0;
+	inline  constexpr auto m_twist_pitch_vel               = 0x4B4;
+	inline  constexpr auto m_aim_pitch_accel               = 0x4B8;
+	inline  constexpr auto m_twist_yaw_accel               = 0x4BC;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto set_external_camera       = image_base + 0x001126B0u;
+	inline  constexpr auto update_weapon_model       = image_base + 0x002C8B20u;
+	inline  constexpr auto start_weapon_recoil       = image_base + 0x002C8FA0u;
+	inline  constexpr auto start_weapon_wag          = image_base + 0x002C92E0u;
+	inline  constexpr auto decay_weapon_recoil       = image_base + 0x002C9450u;
+	inline  constexpr auto show_player               = image_base + 0x002CE9D0u;
+	inline  constexpr auto send_bomb_planting_info   = image_base + 0x002CF9C0u;
+ 
+	//
+	// Virtual method ( index )
+	//
+	inline  constexpr auto update_camera_shake       = 0x3B;
+	inline  constexpr auto update_camera_sway        = 0x3C;
+	inline  constexpr auto update_camera_position    = 0x3F;
+	inline  constexpr auto calculate_camera_rotation = 0x41;
+	inline  constexpr auto update_camera_rotation    = 0x42;
+}
+ 
+// CHARCREATESTRUCT
+namespace c_char_create_struct {
+	//
+	// Member
+	//
+	inline  constexpr auto m_is_player         = 0x8;
+	inline  constexpr auto m_is_ai             = 0xC;
+	inline  constexpr auto m_model_id          = 0x14;
+	inline  constexpr auto m_face_piece_id     = 0x18;
+	inline  constexpr auto m_head_piece_id     = 0x1C;
+	inline  constexpr auto m_figure_type       = 0x20;
+	inline  constexpr auto m_model_skeleton    = 0x24;
+	inline  constexpr auto m_cosmetic_model_id = 0x28;
+	inline  constexpr auto m_weapon_id         = 0x30;
+	inline  constexpr auto m_weapon_object     = 0x34;
+	inline  constexpr auto m_stealth_percent   = 0x3C;
+	inline  constexpr auto m_client_id         = 0x40;
+	inline  constexpr auto m_pitch             = 0x50;
+	inline  constexpr auto m_twist_yaw         = 0x54;
+	inline  constexpr auto m_hitbox_dims       = 0x58;
+	inline  constexpr auto m_hitbox_offset     = 0x64;
+	inline  constexpr auto m_health            = 0x70;
+	inline  constexpr auto m_armor             = 0x74;
+	inline  constexpr auto m_team              = 0x98;
+	inline  constexpr auto m_hp_percentage     = 0x9C;
+	inline  constexpr auto m_npc_type          = 0xA0;
+	inline  constexpr auto m_bot_id            = 0xA4;
+	inline  constexpr auto m_infected          = 0xA8;
+}
+ 
+// PICKUPITEMCREATESTRUCT
+namespace c_pickup_item_create_struct {
+	//
+	// Member
+	//
+	inline  constexpr auto m_item_type              = 0x30;
+	inline  constexpr auto m_owned_team             = 0x34;
+	inline  constexpr auto m_team                   = 0x38;
+	inline  constexpr auto m_moved                  = 0x3C;
+	inline  constexpr auto m_player_drop            = 0x3E;
+	inline  constexpr auto m_owner_id               = 0x40;
+	inline  constexpr auto m_weapon_id              = 0x44;
+	inline  constexpr auto m_ammo_id                = 0x46;
+	inline  constexpr auto m_owner_client_id        = 0x50;
+	inline  constexpr auto m_visible_team           = 0x54;
+}
+ 
+// SFXCREATESTRUCT
+namespace c_sfx_create_struct {
+	//
+	// Member
+	//
+	inline  constexpr auto m_object = 0x4u;
+}
+ 
+// SURFACE
+namespace c_surface {
+	//
+	// Member
+	//
+	inline  constexpr auto m_name                        = 0x0u;
+	inline  constexpr auto m_type                        = 0x20u;
+	inline  constexpr auto m_can_see_through             = 0x24u;
+	inline  constexpr auto m_can_shoot_through           = 0x28u;
+	inline  constexpr auto m_max_shoot_through_perturb   = 0x2Cu;
+	inline  constexpr auto m_max_shoot_through_thickness = 0x30u;
+	inline  constexpr auto m_show_breath                 = 0x34u;
+	inline  constexpr auto m_shows_mark                  = 0x38u;
+	inline  constexpr auto m_hardness                    = 0xB88u;
+	inline  constexpr auto m_magnetic                    = 0xB8Cu;
+	inline  constexpr auto m_invisible                   = 0xB90u;
+}
+ 
+// CSurfaceMgr
+namespace c_surface_mgr {
+	//
+	// Pointer to instance
+	//
+	inline  constexpr auto instance       = image_base + 0x0137585C;
+ 
+	//
+	// Member
+	//
+	inline  constexpr auto m_surface_list = 0x15E0u;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto is_invisible   = image_base + 0x0052BFB0;
+}
+ 
+// CGlobalClientMgr
+namespace c_global_client_mgr {
+	//
+	// Member
+	//
+	inline  constexpr auto m_level_bute_mgr = 0x1C;
+}
+ 
+// LevelButeMgr
+namespace c_level_bute_mgr {
+	//
+	// Pointer to instance
+	//
+	inline  constexpr auto instance     = image_base + 0x01360308;
+ 
+	//
+	// Member
+	//
+	inline  constexpr auto m_level_bute = 0x15E0u;
+	inline  constexpr auto m_level_num  = 0x15E4u;
+}
+ 
+// AMMO
+namespace c_ammo {
+	//
+	// Member
+	//
+	inline  constexpr auto m_intant_damage_type            = 0x0;
+	inline  constexpr auto m_inited                        = 0x4;
+	inline  constexpr auto m_id                            = 0x8;
+	inline  constexpr auto m_type                          = 0xC;
+	inline  constexpr auto m_priority                      = 0x10;
+	inline  constexpr auto m_name                          = 0x14;
+	inline  constexpr auto m_spawned_amount                = 0x18;
+	inline  constexpr auto m_selection_amount              = 0x1C;
+	inline  constexpr auto m_alt_instant_damage            = 0x20;
+	inline  constexpr auto m_instant_damage                = 0x24;
+	inline  constexpr auto m_area_damage                   = 0x28;
+	inline  constexpr auto m_area_damage_radius            = 0x2C;
+	inline  constexpr auto m_sensor_area_radius            = 0x30;
+	inline  constexpr auto m_area_damage_type              = 0x34;
+	inline  constexpr auto m_area_damage_tick_damage       = 0x38;
+	inline  constexpr auto m_area_damage_tick_time         = 0x3C;
+	inline  constexpr auto m_area_damage_total             = 0x40;
+	inline  constexpr auto m_area_arc_damage_radius        = 0x44;
+	inline  constexpr auto m_area_arc_damage_angle         = 0x48;
+	inline  constexpr auto m_area_arc_damage               = 0x4C;
+	inline  constexpr auto m_prog_damage                   = 0x50;
+	inline  constexpr auto m_prog_damage_duration          = 0x54;
+	inline  constexpr auto m_prog_damage_radius            = 0x58;
+	inline  constexpr auto m_prog_damage_height            = 0x5C;
+	inline  constexpr auto m_prog_damage_lifetime          = 0x60;
+	inline  constexpr auto m_prog_damage_slow_speed        = 0x64;
+	inline  constexpr auto m_prog_damage_type              = 0x68;
+	inline  constexpr auto m_stunned_time                  = 0x6C;
+	inline  constexpr auto m_stunned_move_penalty          = 0x70;
+	inline  constexpr auto m_projectile_fx                 = 0x94;
+	inline  constexpr auto m_fire_fx                       = 0xB0;
+	inline  constexpr auto m_jump_perturb                  = 0xBC;
+	inline  constexpr auto m_walk_perturb                  = 0xC0;
+	inline  constexpr auto m_run_perturb                   = 0xC4;
+	inline  constexpr auto m_fire_move_duck_perturb        = 0xC8;
+	inline  constexpr auto m_fire_move_perturb             = 0xCC;
+	inline  constexpr auto m_fire_duck_perturb             = 0xD0;
+	inline  constexpr auto m_fire_perturb                  = 0xD4;
+	inline  constexpr auto m_perturb_recoil                = 0xD8;
+	inline  constexpr auto m_zoomed_jump_perturb           = 0xDC;
+	inline  constexpr auto m_zoomed_walk_perturb           = 0xE0;
+	inline  constexpr auto m_zoomed_run_perturb            = 0xE4;
+	inline  constexpr auto m_zoomed_fire_move_duck_perturb = 0xE8;
+	inline  constexpr auto m_zoomed_fire_move_perturb      = 0xEC;
+	inline  constexpr auto m_zoomed_fire_duck_perturb      = 0xF0;
+	inline  constexpr auto m_zoomed_fire_perturb           = 0xF4;
+	inline  constexpr auto m_zoomed_perturb_recoil         = 0xF8;
+	inline  constexpr auto m_damage_move_penalty           = 0xFC;
+	inline  constexpr auto m_damage_move_penalty_duration  = 0x100;
+	inline  constexpr auto m_dec_delay                     = 0x104;
+	inline  constexpr auto m_jitter_dec_delay              = 0x108;
+	inline  constexpr auto m_jitter_wait_recover           = 0x10C;
+	inline  constexpr auto m_jitter_recover                = 0x110;
+	inline  constexpr auto m_max_amount                    = 0x114;
+	inline  constexpr auto m_health                        = 0x144;
+}
+ 
+// CONVERT
+namespace c_convert {
+	//
+	// Member
+	//
+	inline  constexpr auto m_slot                              = 0x0;
+	inline  constexpr auto m_type                              = 0x4;
+	inline  constexpr auto m_item_type                         = 0x8;
+	inline  constexpr auto m_instant_damage                    = 0xC;
+	inline  constexpr auto m_alt_instant_damage                = 0x10;
+	inline  constexpr auto m_move_penalty                      = 0x14;
+	inline  constexpr auto m_fire_rate                         = 0x18;
+	inline  constexpr auto m_min_perturb                       = 0x1C;
+	inline  constexpr auto m_max_perturb                       = 0x20;
+	inline  constexpr auto m_duck_perturb                      = 0x24;
+	inline  constexpr auto m_move_duck_perturb                 = 0x28;
+	inline  constexpr auto m_zoom_min_perturb                  = 0x2C;
+	inline  constexpr auto m_zoom_max_perturb                  = 0x30;
+	inline  constexpr auto m_triple_shot_min_perturb           = 0x34;
+	inline  constexpr auto m_triple_shot_max_perturb           = 0x38;
+	inline  constexpr auto m_max_random_wag                    = 0x3C;
+	inline  constexpr auto m_max_cam_recoil_wag                = 0x40;
+	inline  constexpr auto m_base_cam_recoil_wag_l             = 0x44;
+	inline  constexpr auto m_base_cam_recoil_wag_r             = 0x48;
+	inline  constexpr auto m_max_random_pitch                  = 0x4C;
+	inline  constexpr auto m_max_cam_recoil_pitch              = 0x50;
+	inline  constexpr auto m_base_cam_recoil_pitch             = 0x54;
+	inline  constexpr auto m_base_cam_recoil_accel_pitch       = 0x58;
+	inline  constexpr auto m_triple_shot_max_cam_recoil_pitch  = 0x5C;
+	inline  constexpr auto m_triple_shot_base_cam_recoil_pitch = 0x60;
+}
+ 
+// CCBAClientWeapon
+namespace c_client_weapon {
+	//
+	// Member
+	//
+	inline  constexpr auto m_object                                       = 0xC;
+	inline  constexpr auto m_weapon_id                                    = 0xF0;
+	inline  constexpr auto m_ammo_id                                      = 0xF4;
+	inline  constexpr auto m_weapon                                       = 0xF8;
+	inline  constexpr auto m_ammo                                         = 0xFC;
+	inline  constexpr auto m_flash_pos                                    = 0x100;
+	inline  constexpr auto m_flash_offset                                 = 0x104;
+	inline  constexpr auto m_movement_perturb                             = 0x124;
+	inline  constexpr auto m_firing_perturb                               = 0x128;
+	inline  constexpr auto m_last_fire_type                               = 0x12C;
+	inline  constexpr auto m_fire                                         = 0x138;
+	inline  constexpr auto m_ammo_in_clip                                 = 0x13C;
+	inline  constexpr auto m_new_ammo_in_clip                             = 0x140;
+	inline  constexpr auto m_state                                        = 0x144;
+	inline  constexpr auto m_select_ani									  = 0x148;
+	inline  constexpr auto m_deselect_ani								  = 0x14C;
+	inline  constexpr auto m_reload_ani									  = 0x150;
+	inline  constexpr auto m_reload1_ani								  = 0x154;
+	inline  constexpr auto m_pre_reload_ani								  = 0x158;
+	inline  constexpr auto m_post_reload_ani							  = 0x15c;
+	inline  constexpr auto m_dry_fire_ani								  = 0x160;
+	inline  constexpr auto m_idle_ani									  = 0x164;
+	inline  constexpr auto m_fire_ani									  = 0x16C;
+	inline  constexpr auto m_alt_fire_ani								  = 0x170;
+	inline  constexpr auto m_pre_fire_ani								  = 0x174;
+	inline  constexpr auto m_post_fire_ani								  = 0x178;
+	inline  constexpr auto m_pre_dash_ani								  = 0x17C;
+	inline  constexpr auto m_dash_ani									  = 0x180;
+	inline  constexpr auto m_post_dash_ani								  = 0x184;
+	inline  constexpr auto m_last_pitch                                   = 0x18C;
+	inline  constexpr auto m_last_yaw                                     = 0x190;
+	inline  constexpr auto m_cam_rotation                                 = 0x19C;
+	inline  constexpr auto m_cam_position                                 = 0x1AC;
+	inline  constexpr auto m_auto_switch_enabled                          = 0x1FC;
+	inline  constexpr auto m_auto_switch                                  = 0x1FD;
+	inline  constexpr auto m_perturb_recoil                               = 0x20C;
+	inline  constexpr auto m_perturb_dec_factor                           = 0x210;
+	inline  constexpr auto m_rapid_firing_count                           = 0x214;
+	inline  constexpr auto m_victim_hitbox                                = 0x218;
+	inline  constexpr auto m_victim                                       = 0x21C;
+	inline  constexpr auto m_hit_me                                       = 0x220;
+	inline  constexpr auto m_hit_player                                   = 0x221;
+	inline  constexpr auto m_model_node                                   = 0x224;
+	inline  constexpr auto m_model_skeleton                               = 0x228;
+	inline  constexpr auto m_impact_point                                 = 0x22C;
+	inline  constexpr auto m_impact_distance                              = 0x238;
+	inline  constexpr auto m_normal                                       = 0x23C;
+	inline  constexpr auto m_fire_path_for_multiple_vectors_per_round_bug = 0x248;
+	inline  constexpr auto m_impact_point_narrow                          = 0x254;
+	inline  constexpr auto m_triple_shot_mode                             = 0x25C;
+	inline  constexpr auto m_continuous_fire_mode                         = 0x25D;
+	inline  constexpr auto m_triple_shot_num                              = 0x260;
+	inline  constexpr auto m_triple_shot_start                            = 0x264;
+	inline  constexpr auto m_triple_shot_delay                            = 0x265;
+	inline  constexpr auto m_triple_shot_delay_start_time                 = 0x268;
+	inline  constexpr auto m_triple_shot_select_delay_start_time          = 0x26C;
+	inline  constexpr auto m_dynamic_perturb_factor                       = 0x270;
+	inline  constexpr auto m_weapon_index                                 = 0x274;
+	inline  constexpr auto m_ammo_index                                   = 0x278;
+	inline  constexpr auto m_reload_fire                                  = 0x27C;
+	inline  constexpr auto m_weapon_convert_data                          = 0x2A0;
+	inline  constexpr auto m_auto_fire                                    = 0x32D;
+ 
+	//
+	// Static method
+	// 
+	inline  constexpr auto find_hit_node                                  = image_base + 0x0044DD90u;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto add_impact                                     = image_base + 0x0044D030u;
+	inline  constexpr auto get_fire_vectors                               = image_base + 0x0044AD10u;
+	inline  constexpr auto update                                         = image_base + 0x000C1DD0u;
+	inline  constexpr auto update_model_state                             = image_base + 0x00444FB0u;
+	inline  constexpr auto update_ammo_from_fire                          = image_base + 0x00444F00u;
+}
+ 
+// CClientWeaponMgr
+namespace c_client_weapon_mgr {
+	//
+	// Member
+	//
+	inline  constexpr auto m_client_weapon     = 0x0;
+	inline  constexpr auto m_client_emotion    = 0x4;
+	inline  constexpr auto m_max_weapons       = 0x8;
+	inline  constexpr auto m_current_weapon_id = 0xC;
+	inline  constexpr auto m_current_weapon    = 0x10;
+	inline  constexpr auto m_weapons_enable    = 0x14;
+	inline  constexpr auto m_weapons_visible   = 0x15;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto hide_weapons        = image_base + 0x003E3E30;
+}
+ 
+// DSIGHTSTYLE
+namespace c_dsight_style {
+	//
+	// Member
+	//
+	inline  constexpr auto m_inited = 0x0;
+	inline  constexpr auto m_id     = 0x4;
+	inline  constexpr auto m_name   = 0x8;
+}
+ 
+// GEAR
+namespace c_gear {
+	//
+	// Member
+	//
+	inline  constexpr auto m_inited = 0x0;
+	inline  constexpr auto m_id     = 0x4;
+	inline  constexpr auto m_name   = 0x8;
+	inline  constexpr auto m_armor  = 0x70;
+	inline  constexpr auto m_health = 0x74;
+}
+ 
+// WEAPON
+namespace c_weapon {
+	//
+	// Member
+	//
+	inline  constexpr auto m_inited                            = 0x0;
+	inline  constexpr auto m_id                                = 0x4;
+	inline  constexpr auto m_client_weapon_type                = 0x8;
+	inline  constexpr auto m_name                              = 0x50;
+	inline  constexpr auto m_kill_image                        = 0xC8;
+	inline  constexpr auto m_fire_sound_radius                 = 0x240;
+	inline  constexpr auto m_fire_sound_volume                 = 0x244;
+	inline  constexpr auto m_reload_after_fire                 = 0x248;
+	inline  constexpr auto m_damage_weapon                     = 0x249;
+	inline  constexpr auto m_crosshair_offset                  = 0x250;
+	inline  constexpr auto m_crosshair_color                   = 0x254;
+	inline  constexpr auto m_triple_shot_mode                  = 0x258;
+	inline  constexpr auto m_triple_shot_round_num             = 0x25C;
+	inline  constexpr auto m_damage_r_facter                   = 0x260;
+	inline  constexpr auto m_reload_sound_radius               = 0x274;
+	inline  constexpr auto m_select_sound_radius               = 0x278;
+	inline  constexpr auto m_infinite_ammo                     = 0x27C;
+	inline  constexpr auto m_shots_per_clip                    = 0x288;
+	inline  constexpr auto m_reload_per_bullet                 = 0x28C;
+	inline  constexpr auto m_ammo_ids                          = 0x294;
+	inline  constexpr auto m_default_ammo_id                   = 0x298;
+	inline  constexpr auto m_dynamic_perturb_factor            = 0x2A4;
+	inline  constexpr auto m_dynamic_pertub_factor_run         = 0x2A8;
+	inline  constexpr auto m_dynamic_pertub_factor_walk        = 0x2AC;
+	inline  constexpr auto m_dynamic_pertub_factor_jump        = 0x2B0;
+	inline  constexpr auto m_zoom_time                         = 0x2B4;
+	inline  constexpr auto m_min_perturb                       = 0x2B8;
+	inline  constexpr auto m_max_perturb                       = 0x2BC;
+	inline  constexpr auto m_duck_perturb                      = 0x2C0;
+	inline  constexpr auto m_duck_move_perturb                 = 0x2C4;
+	inline  constexpr auto m_zoomed_min_perturb                = 0x2C8;
+	inline  constexpr auto m_zoomed_max_perturb                = 0x2CC;
+	inline  constexpr auto m_range                             = 0x2D0;
+	inline  constexpr auto m_recoil                            = 0x2D4;
+	inline  constexpr auto m_vectors_per_round                 = 0x2E0;
+	inline  constexpr auto m_fire_delay                        = 0x304;
+	inline  constexpr auto m_fire_ani_rate                     = 0x308;
+	inline  constexpr auto m_move_penalty                      = 0x30C;
+	inline  constexpr auto m_perturb_inc_speed                 = 0x310;
+	inline  constexpr auto m_perturb_dec_speed                 = 0x314;
+	inline  constexpr auto m_zoomed_move_penalty               = 0x318;
+	inline  constexpr auto m_zoomed_perturb_inc_speed          = 0x31C;
+	inline  constexpr auto m_zoomed_perturb_dec_speed          = 0x320;
+	inline  constexpr auto m_max_cam_recoil_pitch              = 0x324;
+	inline  constexpr auto m_base_cam_recoil_pitch             = 0x328;
+	inline  constexpr auto m_base_cam_recoil_accel_pitch       = 0x32C;
+	inline  constexpr auto m_max_cam_recoil_yaw                = 0x330;
+	inline  constexpr auto m_base_cam_recoil_yaw               = 0x334;
+	inline  constexpr auto m_max_cam_recoil_wag                = 0x338;
+	inline  constexpr auto m_base_cam_recoil_wag_r             = 0x33C;
+	inline  constexpr auto m_bae_cam_recoil_wag_r              = 0x340;
+	inline  constexpr auto m_max_random_pitch                  = 0x344;
+	inline  constexpr auto m_max_random_wag                    = 0x348;
+	inline  constexpr auto m_white_screen_decl                 = 0x34C;
+	inline  constexpr auto m_captured_decl                     = 0x350;
+	inline  constexpr auto m_triple_shot_max_cam_recoil_pitch  = 0x354;
+	inline  constexpr auto m_triple_shot_base_cam_recoil_pitch = 0x358;
+	inline  constexpr auto m_base_cam_back_jitter              = 0x35C;
+	inline  constexpr auto m_back_jitter_recover               = 0x360;
+	inline  constexpr auto m_triple_shot_min_perturb           = 0x364;
+	inline  constexpr auto m_triple_shot_max_perturb           = 0x368;
+	inline  constexpr auto m_triple_shot_perturb_inc_speed     = 0x36C;
+	inline  constexpr auto m_triple_shot_perturb_dec_speed     = 0x370;
+	inline  constexpr auto m_triple_shot_delay                 = 0x3D8;
+	inline  constexpr auto m_triple_shot_select_delay          = 0x3DC;
+	inline  constexpr auto m_disable_crosshair                 = 0x3E0;
+	inline  constexpr auto m_rapid_fire_count                  = 0x3E4;
+	inline  constexpr auto m_continous_fire                    = 0x3E8;
+	inline  constexpr auto m_camera_sway_x_speed               = 0x3F4;
+	inline  constexpr auto m_camera_sway_y_speed               = 0x3F8;
+	inline  constexpr auto m_camera_sway_x_freq                = 0x3FC;
+	inline  constexpr auto m_camera_sway_y_freq                = 0x400;
+	inline  constexpr auto m_grenade_speed                     = 0x404;
+	inline  constexpr auto m_grenade_attach                    = 0x408;
+	inline  constexpr auto m_weapon_type                       = 0x414;
+	inline  constexpr auto m_air_drop_num                      = 0x41C;
+	inline  constexpr auto m_air_drop_height                   = 0x420;
+	inline  constexpr auto m_air_drop_delay                    = 0x424;
+	inline  constexpr auto m_crosshair_type                    = 0x4F4;
+}
+ 
+// CWeaponMgr
+namespace c_weapon_mgr {
+	//
+	// Instance
+	//
+	inline  constexpr auto instance             = image_base + 0x0135AFD0;
+ 
+	//
+	// Member
+	//
+	inline  constexpr auto m_weapon_list        = 0x15E0;
+	inline  constexpr auto m_num_weapons        = 0x15E4;
+	inline  constexpr auto m_ammo_list          = 0x15E8;
+	inline  constexpr auto m_num_ammos          = 0x15EC;
+	inline  constexpr auto m_gear_list          = 0x15F0;
+	inline  constexpr auto m_num_gears          = 0x15F4;
+	inline  constexpr auto m_dsight_style_list  = 0x1610;
+	inline  constexpr auto m_num_dsight_style   = 0x1614;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto calculate_weapon_path = image_base + 0x00330070;
+}
+ 
+// BOT_INFO
+namespace c_bot_info {
+	//
+	// Member
+	//
+	inline  constexpr auto m_name      = 0x18;
+	inline  constexpr auto m_clan_name = 0x1C;
+	inline  constexpr auto m_level     = 0x20;
+	inline  constexpr auto m_kdr       = 0x30;
+	inline  constexpr auto m_kills     = 0x34;
+	inline  constexpr auto m_deaths    = 0x38;
+	inline  constexpr auto m_prev      = 0x50;
+	inline  constexpr auto m_next      = 0x54;
+}
+ 
+// CBotInfoMgr
+namespace c_bot_info_mgr {
+	//
+	// Member
+	//
+	inline  constexpr auto m_bot_infos         = 0x4;
+	inline  constexpr auto m_bot_info_count    = 0x8;
+}
+ 
+// CAM_TARGET_INFO
+namespace c_cam_target_info {
+	//
+	// Member
+	//
+	inline  constexpr auto m_id             = 0x0;
+	inline  constexpr auto m_object         = 0x4;
+	inline  constexpr auto m_dead           = 0x8;
+	inline  constexpr auto m_team           = 0xC;
+	inline  constexpr auto m_kill_me_count  = 0x10;
+	inline  constexpr auto m_type           = 0x14;
+}
+ 
+// CSpecialFX
+namespace c_body_fx {
+	//
+	// Member
+	//
+	inline  constexpr auto m_hitbox = 0xB4;
+}
+ 
+// CCBACharacterFX
+namespace c_character_fx {
+	//
+	// Member
+	//
+	inline  constexpr auto m_cs                    = 0x38;
+	inline  constexpr auto m_dead                  = 0x561;
+	inline  constexpr auto m_no_damaged_player     = 0x562;
+	inline  constexpr auto m_damage_time           = 0x564;
+	inline  constexpr auto m_hitbox                = 0x56C;
+	inline  constexpr auto m_player_cam_rot        = 0x594;
+	inline  constexpr auto m_weapon_id             = 0x5A4;
+	inline  constexpr auto m_weapon_object         = 0x5A8;
+	inline  constexpr auto m_zoomed_in             = 0x5C0;
+	inline  constexpr auto m_player_cam_pos        = 0x5C4;
+	inline  constexpr auto m_bomb_plant_prog       = 0x5D0;
+	inline  constexpr auto m_bomb_defuse_prog      = 0x5D1;
+	inline  constexpr auto m_dot_sighted           = 0x5D2;
+	inline  constexpr auto m_health                = 0x5D4;
+	inline  constexpr auto m_armor                 = 0x5D6;
+	inline  constexpr auto m_team                  = 0x5D8;
+	inline  constexpr auto m_id                    = 0x5DC;
+	inline  constexpr auto m_infected              = 0x5E0;
+	inline  constexpr auto m_human_model           = 0x5E1;
+	inline  constexpr auto m_local                 = 0x5E2;
+	inline  constexpr auto m_hp_fx_health          = 0x608;
+	inline  constexpr auto m_pitch                 = 0x618;
+	inline  constexpr auto m_twist_yaw             = 0x61C;
+	inline  constexpr auto m_control_flags         = 0x7E0;
+	inline  constexpr auto m_damage_move           = 0x7E4;
+	inline  constexpr auto m_damage_move_count     = 0x7E8;
+	inline  constexpr auto m_player_control_flags  = 0x7EC;
+	inline  constexpr auto m_upper_node            = 0x7F0;
+	inline  constexpr auto m_lower_node            = 0x7F4;
+	inline  constexpr auto m_pelvis_node           = 0x7F8;
+	inline  constexpr auto m_neck_node             = 0x7FC;
+	inline  constexpr auto m_head_node             = 0x800;
+	inline  constexpr auto m_left_node             = 0x804;
+	inline  constexpr auto m_right_node            = 0x808;
+}
+ 
+// CLIENT_INFO
+namespace c_client_info {
+	//
+	// Member
+	//
+	inline  constexpr auto m_ping          = 0x18;
+	inline  constexpr auto m_name          = 0x28;
+	inline  constexpr auto m_kills         = 0x40;
+	inline  constexpr auto m_deaths        = 0x44;
+	inline  constexpr auto m_headshots     = 0x74;
+	inline  constexpr auto m_capture_flag  = 0x7C;
+	inline  constexpr auto m_retrieve_flag = 0x80;
+	inline  constexpr auto m_kdr           = 0x84;
+	inline  constexpr auto m_level         = 0x110;
+	inline  constexpr auto m_clan_member   = 0x120;
+	inline  constexpr auto m_clan_name     = 0x128;
+	inline  constexpr auto m_bomb_detonate = 0x194;
+	inline  constexpr auto m_bomb_defuse   = 0x198;
+}
+ 
+// CCBAClientInfoMgr
+namespace c_client_info_mgr {
+	//
+	// Member
+	//
+	inline  constexpr auto m_clients  = 0x8;
+	inline  constexpr auto m_local_id = 0x10;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto get_client_by_id           = image_base + 0x000B80B0;
+	inline  constexpr auto get_client_by_name         = image_base + 0x000B74D0;
+	inline  constexpr auto get_client_by_object       = image_base + 0x000B7410;
+	inline  constexpr auto get_client_by_uid          = image_base + 0x000B73C0;
+	inline  constexpr auto get_local_client           = image_base + 0x000B90A0;
+	inline  constexpr auto get_num_alive_players      = image_base + 0x000B76B0;
+	inline  constexpr auto get_num_clients            = image_base + 0x000B6830;
+	inline  constexpr auto get_num_players            = image_base + 0x000B7720;
+	inline  constexpr auto get_num_team_alive_players = image_base + 0x000B7630;
+	inline  constexpr auto get_num_team_players       = image_base + 0x000B75C0;
+	inline  constexpr auto get_player_name            = image_base + 0x000B8050;
+}
+ 
+// CHitBox
+namespace c_hitbox {
+	//
+	// Member
+	//
+	inline  constexpr auto m_object = 0x0;
+	inline  constexpr auto m_model  = 0x4;
+	inline  constexpr auto m_dims   = 0x8;
+	inline  constexpr auto m_off    = 0x14;
+}
+ 
+// CPatternObjectFX
+namespace c_pattern_fx {
+	//
+	// Member
+	//
+	inline  constexpr auto m_hitbox = 0x54;
+}
+ 
+// CPickupItemFX
+namespace c_pickup_item_fx {
+	//
+	// Member
+	//
+	inline  constexpr auto m_max_update      = 0x44;
+	inline  constexpr auto m_respawn_pos     = 0x48;
+	inline  constexpr auto m_pickup_item_pos = 0x54;
+	inline  constexpr auto m_pitch           = 0x60;
+	inline  constexpr auto m_yaw             = 0x64;
+	inline  constexpr auto m_roll            = 0x68;
+	inline  constexpr auto m_pitch_vel       = 0x6C;
+	inline  constexpr auto m_yaw_vel         = 0x70;
+	inline  constexpr auto m_roll_vel        = 0x74;
+	inline  constexpr auto m_delta_time      = 0x78;
+	inline  constexpr auto m_weapon_vel      = 0x7C;
+	inline  constexpr auto m_item_type       = 0x80;
+	inline  constexpr auto m_owned_team      = 0x84;
+	inline  constexpr auto m_team            = 0x88;
+	inline  constexpr auto m_moved           = 0x8C;
+	inline  constexpr auto m_show_indicator  = 0x8D;
+	inline  constexpr auto m_player_drop     = 0x8E;
+	inline  constexpr auto m_remain_time     = 0x90;
+	inline  constexpr auto m_owner_client    = 0x98;
+	inline  constexpr auto m_visible_team    = 0x9C;
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto init              = image_base + 0x003B8CF0;
+}
+ 
+// CProjectileFX
+namespace c_projectile_fx {
+	//
+	// Member
+	//
+	inline  constexpr auto m_projectile_fx      = 0x3C;
+	inline  constexpr auto m_weapon_id          = 0x54;
+	inline  constexpr auto m_ammo_id            = 0x56;
+	inline  constexpr auto m_shooter_id         = 0x59;
+	inline  constexpr auto m_local              = 0x5C;
+	inline  constexpr auto m_alt_fire           = 0x60;
+	inline  constexpr auto m_detonated          = 0x64;
+	inline  constexpr auto m_start_time         = 0x78;
+	inline  constexpr auto m_fire_delay         = 0x7C;
+	inline  constexpr auto m_finish_time        = 0x80;
+	inline  constexpr auto m_fire_pos           = 0x84;
+	inline  constexpr auto m_path               = 0x90;
+	inline  constexpr auto m_velocity           = 0xA4;
+	inline  constexpr auto m_point_target       = 0xA8;
+	inline  constexpr auto m_direction          = 0xB4;
+	inline  constexpr auto m_turret_target      = 0xC0;
+	inline  constexpr auto m_enable_turret      = 0xC4;
+}
+ 
+// CCBASFXMgr
+namespace c_sfx_mgr {
+	//
+	// Member
+	//
+	inline  constexpr auto handle_sfx_msg = image_base + 0x003491F0;
+}
+ 
+// CSpecialFX
+namespace c_special_fx {
+	//
+	// Member
+	//
+	inline  constexpr auto m_next_update_time = 0x4;
+	inline  constexpr auto m_object           = 0x10;
+	inline  constexpr auto m_update_delta     = 0x30;
+}
+ 
+// CWeaponFX
+namespace c_weapon_fx {
+	//
+	// Method
+	//
+	inline  constexpr auto create_weapon_specific_fx = image_base + 0x005BC700;
+}
+ 
+// PROJECTILEFX
+namespace projectile_fx {
+	//
+	// Member
+	//
+	inline  constexpr auto m_id                   = 0x0;
+	inline  constexpr auto m_name                 = 0x4;
+	inline  constexpr auto m_max_ricochet_angle   = 0x1E8;
+	inline  constexpr auto m_max_ricochets        = 0x1EC;
+	inline  constexpr auto m_velocity             = 0x1F0;
+	inline  constexpr auto m_alt_velocity         = 0x1F4;
+	inline  constexpr auto m_drop_velocity        = 0x1F8;
+	inline  constexpr auto m_life_time            = 0x200;
+	inline  constexpr auto m_gravity_override     = 0x204;
+	inline  constexpr auto m_finish_snd_time      = 0x208;
+	inline  constexpr auto m_flags                = 0x20C;
+	inline  constexpr auto m_object_flags         = 0x230;
+	inline  constexpr auto m_damage_max_count     = 0x244;
+	inline  constexpr auto m_can_impact_same_kind = 0x248;
+	inline  constexpr auto m_fire_delay_time      = 0x24C;
+	inline  constexpr auto m_explosion_delay_time = 0x29C;
+}

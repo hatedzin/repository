@@ -1,0 +1,334 @@
+#define PlayerManager    0x3845CE7C // cabr address
+ 
+if (FlyHack)
+{
+    *(FLOAT*)(*(DWORD*)(*(DWORD*)(PlayerManager) + Offset1) + Offset2) = 1100.0f;
+}
+else
+{
+    *(FLOAT*)(*(DWORD*)(*(DWORD*)(PlayerManager) + Offset1) + Offset2) = -1100.0f;
+}
+
+
+
+
+class CHUDXMLRadioMsg
+{
+private:
+	char pad_0000[100]; //0x0000
+public:
+        int32_t m_nPage; //0x0064
+	int32_t m_nListIdx; //0x0068
+	int32_t m_nRandom; //0x006C
+	int32_t m_nViewIdx; //0x0070
+	int32_t m_nSoundTemplate; //0x0074
+	int32_t m_nLastCommandTick; //0x0078
+}; //Size: 0x0440
+ 
+enum eKindRadioMsg
+{
+	eRadioMsg_Report = 0x0,
+	eRadioMsg_Answer = 0x1,
+	eRadioMsg_Request = 0x2,
+	eRadioMsg_Emotion = 0x3,
+	eRadioMsg_MaxNum = 0x4,
+};
+
+
+
+
+//typedef
+typedef void(__thiscall* tShowRadioMsg)(CHUDXMLRadioMsg* pThis, eKindRadioMsg eKind);
+//detour
+tShowRadioMsg oShowRadioMsg;
+//Hook, im using MinHook
+ 
+void __fastcall Hook_CHUDXMLRadioMsgShowRadioMsg(CHUDXMLRadioMsg* pThis, void* /*edx*/, eKindRadioMsg eKind)
+{
+	pThis->m_nLastCommandTick = 0;
+        oShowRadioMsg(pThis, eKind); 
+}
+
+
+
+
+void InstallCHUDXMLRadioMsgShowRadioMsg()
+{
+    uintptr_t targetAddr = PatternScan(0, ___("A1 ? ? ? ? 83 78 38 01 56"), false);
+    if (MH_CreateHook((LPVOID)targetAddr, &Hook_CHUDXMLRadioMsgShowRadioMsg, (LPVOID*)&oShowRadioMsg) != MH_OK)
+    {
+        MessageBoxA(nullptr, "[Error] Failed to create hook for CHUDXMLRadioMsg::ShowRadioMsg", "Hook Error", MB_ICONERROR | MB_OK);
+    }
+    if (MH_EnableHook((LPVOID)targetAddr) != MH_OK)
+    {
+        MessageBoxA(nullptr, "[Error] Failed to enable hook for CHUDXMLRadioMsg::ShowRadioMsg", "Hook Error", MB_ICONERROR | MB_OK);
+    }
+    else
+    {
+        char buffer[256];
+        sprintf_s(buffer, sizeof(buffer), "[Success] Hooked CHUDXMLRadioMsg::ShowRadioMsg at 0x%p", (void*)targetAddr);
+        MessageBoxA(nullptr, buffer, "Hook Success", MB_ICONINFORMATION | MB_OK);
+    }
+}#define RADIO_MESSAGE_MAX	9
+ 
+void CHUDXMLRadioMsg::Reconstruct()
+{
+	if(IsVisible())
+	{
+		char szTemp[MAX_PATH];
+		std::wstring wstrTemp;
+ 
+		if(m_nPage == eRadioMsg_Emotion)
+		{
+			wstrTemp = g_pInterfaceResMgr->GetTextControlStringValueW("$Emotion_listClass_0").c_str();
+			m_pTitle->SetText( wstrTemp );
+ 
+			for(int i=0; i<RADIO_MESSAGE_MAX; i++)
+			{
+				if(m_pTextArray[i])
+				{
+					sprintf_s(szTemp, "Emotion_list_%d", i+1);
+					wstrTemp = g_pInterfaceResMgr->GetTextControlStringValueW(szTemp).c_str();
+ 
+					std::wstring wstrComp;
+					wstring_from_string(szTemp, wstrComp);
+ 
+					if(wcscmp(wstrTemp.c_str(), wstrComp.c_str()))
+					{
+						m_pTextArray[i]->SetText(wstrTemp);
+						m_pTextArray[i]->SetVisible(LTTRUE);
+					}
+					else
+						m_pTextArray[i]->SetVisible(LTFALSE);
+				}
+			}
+ 
+			return;
+		}
+ 
+		strcpy(szTemp,g_pRadioMsgMgr->GetMsgClassName(m_nPage));
+		wstring_from_string(szTemp, wstrTemp);
+		m_pTitle->SetText( wstrTemp );
+ 
+		for(int i=0; i<RADIO_MESSAGE_MAX; i++)
+		{
+			if(m_pTextArray[i])
+			{
+				if(m_nViewIdx + i < g_pRadioMsgMgr->GetMsgNumOfClass(m_nPage))
+				{
+					strcpy(szTemp,g_pRadioMsgMgr->GetMsgElementText(m_nPage,m_nViewIdx + i));
+					wstring_from_string(szTemp, wstrTemp);
+					m_pTextArray[i]->SetText(wstrTemp);
+					m_pTextArray[i]->SetVisible(LTTRUE);
+				}
+				else
+					m_pTextArray[i]->SetVisible(LTFALSE);
+			}
+		}
+	}
+}
+ 
+void CHUDXMLRadioMsg::ShowRadioMsg(eKindRadioMsg eKind)
+{
+	if(g_pCBAPlayerMgr->GetPlayerState() != PS_ALIVE)
+	{
+		SetVisible(LTFALSE);
+		return;
+	}
+ 
+	int nTick=GetTickCount();
+	if(nTick - m_nLastCommandTick < s_nSoundPlayDelayTime)
+		return ;
+ 
+	if(!m_bBuilt)
+		return;
+ 
+	if(eKind >= eRadioMsg_MaxNum)
+		return;
+ 
+	if(IsVisible() && m_nPage==eKind)
+	{
+		SetVisible(LTFALSE);
+	}
+	else
+	{
+		m_nPage=eKind;
+		m_nViewIdx=0;
+		SetVisible(LTTRUE);
+	}
+ 
+	Reconstruct();
+}
+
+
+005337E1   A1 A4E17F00      MOV EAX,DWORD PTR DS:[7FE1A4]
+005337E6   8B88 F8060000    MOV ECX,DWORD PTR DS:[EAX+6F8]//cshell 
+005337EC   894C24 04        MOV DWORD PTR SS:[ESP+4],ECX
+005337F0  ^E9 8BFFF2FF      JMP Engine.00463780
+005337F5   68 50177800      PUSH Engine.00781750                     ; ASCII "d3ddevice"
+005337FA   56               PUSH ESI
+005337FB   E8 C1C21B00      CALL Engine.006EFAC1
+005337F5   68 50177800      PUSH Engine.00781750                     ; ASCII "d3ddevice"
+005337FA   56               PUSH ESI
+005337FB   E8 C1C21B00      CALL Engine.006EFAC1
+00533800   83C4 08          ADD ESP,8
+00533803   85C0             TEST EAX,EAX
+00533805   75 10            JNZ SHORT Engine.00533817
+00533807   FF15 2C638000    CALL DWORD PTR DS:[80632C]               ; Engine.005872E0//device found here
+0053380D   8B5424 0C        MOV EDX,DWORD PTR SS:[ESP+C]
+00533811   8902             MOV DWORD PTR DS:[EDX],EAX
+00533813   33C0             XOR EAX,EAX
+00533815   5E               POP ESI
+00533816   C3               RETN
+00533817   B8 01000000      MOV EAX,1
+Engine hooks u can draw up in her.
+
+Code:
+005353B0   833D 04638000 00 CMP DWORD PTR DS:[806304],0
+005353B7   75 36            JNZ SHORT Engine.005353EF
+005353B9   6A 49            PUSH 49
+005353BB   E8 60AAF6FF      CALL Engine.0049FE20
+005353C0   83C4 04          ADD ESP,4
+005353C3   833D E0DB7F00 01 CMP DWORD PTR DS:[7FDBE0],1
+005353CA   7C 1D            JL SHORT Engine.005353E9
+005353CC   A1 4C607D00      MOV EAX,DWORD PTR DS:[7D604C]
+005353D1   68 703D7700      PUSH Engine.00773D70
+005353D6   68 D43D7700      PUSH Engine.00773DD4                     ; ASCII "LT_NOTINITIALIZED"
+005353DB   68 B81A7800      PUSH Engine.00781AB8                     ; ASCII "FlipScreen"
+005353E0   50               PUSH EAX
+005353E1   E8 7AB6F6FF      CALL Engine.004A0A60
+005353E6   83C4 10          ADD ESP,10
+005353E9   B8 49000000      MOV EAX,49
+005353EE   C3               RETN
+ClientInfo
+Code:
+3715F660   53                    PUSH EBX  //tried tracing back this function with no luck but you can see that the call in red is from the same class so i traced that for the this:it is lazy but w/e 
+3715F661   8BD9                  MOV EBX,ECX
+3715F663   56                    PUSH ESI
+3715F664   8D43 08               LEA EAX,DWORD PTR DS:[EBX+8]
+3715F667   57                    PUSH EDI
+3715F668   C700 00000000         MOV DWORD PTR DS:[EAX],0
+3715F66E   50                    PUSH EAX
+3715F66F   A1 10D97E37           MOV EAX,DWORD PTR DS:[377ED910]
+3715F674   8B88 84000000         MOV ECX,DWORD PTR DS:[EAX+84]
+3715F67A   FFD1                  CALL ECX
+3715F67C   8B7C24 1C             MOV EDI,DWORD PTR SS:[ESP+1C]
+3715F680   83C4 04               ADD ESP,4
+3715F683   6A 00                 PUSH 0
+3715F685   57                    PUSH EDI
+3715F686   8BCB                  MOV ECX,EBX
+3715F688   E8 F3E2FFFF           CALL cshell.3715D980
+3715F68D   E8 7EFDFFFF           CALL cshell.3715F410
+3715F692   8BF0                  MOV ESI,EAX
+3715F694   85F6                  TEST ESI,ESI
+3715F696   75 20                 JNZ SHORT cshell.3715F6B8
+3715F698   8B4C24 10             MOV ECX,DWORD PTR SS:[ESP+10]
+3715F69C   A1 10D97E37           MOV EAX,DWORD PTR DS:[377ED910]
+3715F6A1   8B10                  MOV EDX,DWORD PTR DS:[EAX]
+3715F6A3   8B52 18               MOV EDX,DWORD PTR DS:[EDX+18]
+3715F6A6   51                    PUSH ECX
+3715F6A7   68 04A46E37           PUSH cshell.376EA404                                    ; ASCII "CCBAClientInfoMgr::AddClient %s End"
+ 
+ 
+ 
+3715E914   8B0D 48CE7E37         MOV ECX,DWORD PTR DS:[377ECE48]                         ; cshell.37805DA0
+3715E91A   6A 00                 PUSH 0
+3715E91C   56                    PUSH ESI
+3715E91D   E8 5EF0FFFF           CALL cshell.3715D980
+didnt fully rebuild but w/e u can add what you want: only worked on this when i was bored last week :/
+
+Code:
+class PointerTo
+{
+public:
+	char pad[4];
+	PlayerInfo * first;
+    __int32 index;
+ 
+};
+ 
+ 
+class PlayerInfo
+{
+public:
+	
+    __int32 Unknown0; //0000
+	__int32 index; //0004
+	__int32 Unknown2; //0008
+	__int32 Unknown3; //000C
+	char Name[12]; //0010
+	char unknown5[12];
+	_Object* obj; //0028
+	char unknown7[76];
+	__int8 IsDead; //0078
+	__int8 Unknown9; //0079
+	__int16 Unknown10; //007A
+	char unknown11[488];
+	PlayerInfo* Next; //0264
+};
+ 
+ 
+ 
+class _Object
+{
+public:
+	char Pad[4];
+	D3DXVECTOR3 origin;
+};
+
+
+Nothing usefull As i went sealione route .
+Code:
+typedef int (__thiscall *lpAmountAlive)(unsigned long ulThis);
+lpAmountAlive AmountAlive; //0x3715C3A0
+ 
+ 
+typedef int (__thiscall *lpTotalPlayers)(unsigned long ulThis);
+lpTotalPlayers TotalPlayers;//0x3715C210
+
+
+############################################################
+#                                                          #
+#   >> Combat Arms Logger  <<                              #
+#                                                          #
+#   Creator : TheHacker/Mod                                #
+#                                                          #
+#   Started  : 20/10/2026 23:41:22		   	   #
+#                                                          #
+############################################################
+ 
+//[+] Starting to scan Engine.exe...
+[Engine] DeviceGame => 0x864120
+[Engine] WorldToScreen => 0x516BE0
+[Engine] SendToServer => 0x480480
+[Engine] LTClientEXE => 0x492670
+[Engine] DrawPrimitive => 0x85BC90
+[Engine] ILTModel => 0x78C24C
+ 
+//[+] Starting to scan cshell.dll...
+[cshell] ClientInfoMgr => 0x384F93E4
+[cshell] PlayerByIndex => 0x37167630
+[cshell] LocalPlayer => 0x37167920
+[cshell] WeaponMgr => 0x384F93E4
+[cshell] GameClientShell => 0x384FDCF0
+[cshell] InterfaceMgr => 0x3856F3A4
+[cshell] BuildGuid => 0x384E6360
+[cshell] LTCSBase => 0x384E6370
+[cshell] LTClientDLL => 0x384E6388
+ 
+//[+] Starting to get Hooks in Engine.exe...
+ 
+//[+] Starting to get Hooks in cshell.dll...
+[Hook -> cshell.dll] CClientWeapon::Fire => 0x375FA520
+[Hook -> cshell.dll] CClientWeapon::SendWeaponFireMessages => 0x37603E00
+[Hook -> cshell.dll] CClientWeapon::AddImpact => 0x375F66E0
+[Hook -> cshell.dll] CXMLCreateRoomPopup::SelectOption => 0x373BA160
+[Hook -> cshell.dll] CXMLCreateRoomPopup::SelectSecOption => 0x373BA400
+[Hook -> cshell.dll] CHUDXMLVoteReq::Show => 0x37290F90
+[Hook -> cshell.dll] CXMLRoulettePopup::OnCommand => 0x376BDC90
+[Hook -> cshell.dll] CFilterMsg::IsEnableNameByFilter => 0x374151B0
+[Hook -> cshell.dll] CHUDXMLRadioMsg::ShowRadioMsg => 0x37267670
+[Hook -> cshell.dll] CScreenMgr::GetCurrentScreenID => 0x371D39D0
+[Hook -> cshell.dll] CModelButeMgr::GetSkeletonNodeHitRadius => 0x3756D0D0
+[Hook -> cshell.dll] ModelButeReader::ToMessage => 0x37584710
+[Hook -> cshell.dll] CCharModelInfoMgr::GetModelButeReader => 0x3718F710

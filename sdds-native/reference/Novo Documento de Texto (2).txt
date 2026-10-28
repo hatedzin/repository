@@ -1,0 +1,36 @@
+clt_message_write_client *send{};
+if ( lt_client->get_common()->create_message( send ) == LT_OK )
+{
+    ///
+    /// From: CHUDXMLRadioMsg::OnCommand
+    ///
+ 
+    send->write_uint8( 190 )                    // ID_RADIO
+    send->write_comp_pos( -760, -3183.9, -669 ) // My position
+    send->write_uint8( 0 )                      // Page
+    send->write_uint8( 0 )                      // Index
+    send->write_uint8( 0 )                      // Random
+    send->write_bool( false )                   // ToEnemy
+    send->write_uint8( 0 )                      // SoundTemplate
+ 
+    lt_client->send_to_server( send->read(), 1 );
+}
+
+clt_message_write_client *send{};
+if ( lt_client->get_common()->create_message( send ) == LT_OK )
+{
+    ///
+    /// From: CHUDXMLRadioMsg::OnCommand
+    ///
+ 
+    send->write_uint8( 190 )                    // ID_RADIO
+    send->write_comp_pos( -760, -3183.9, -669 ) // My position
+    send->write_uint8( 0 )                      // Page
+    send->write_uint8( 0 )                      // Index
+    send->write_uint8( 0 )                      // Random
+    send->write_bool( false )                   // ToEnemy
+    send->write_uint8( 0 )                      // SoundTemplate
+ 
+    lt_client->send_to_server( send->read(), 1 );
+}
+

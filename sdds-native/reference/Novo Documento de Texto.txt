@@ -1,0 +1,165 @@
+enum class mb_type
+{
+	ok        = 0,
+	yes_no    = 1,
+	three_btn = 2,
+	edit      = 3,
+	none      = 4,
+	cancel    = 5
+};
+ 
+enum mb_button_id_
+{
+	mb_button_on     = 1,
+	mb_button_off    = 2,
+	mb_button_yes    = 3,
+	mb_button_no     = 4,
+	mb_button_create = 7,
+	mb_button_ok     = 8,
+	mb_button_cancel = 9,
+	mb_button_apply  = 10
+};
+/*
+   GUIEditCtrl::eInputMode
+*/
+enum mb_input_mode_
+{
+	mb_input_mode_all             = 0,
+	mb_input_mode_alpha_numeric   = 1 << 0,
+	mb_input_mode_alpha_only      = 1 << 1,
+	mb_input_mode_number_only     = 1 << 2,
+	mb_input_mode_not_allow_space = 1 << 3
+};
+ 
+enum class mb_msg_sound_type
+{
+	normal = 0,
+	error  = 1,
+	max    = 2
+};
+ 
+struct c_mb_create
+{
+	/*
+	   edit boxes return a pointer to their strings in data
+	   yes_no and ok boxes return their passed data untouched
+	*/
+	using callback_fn = void( __cdecl* )( std::uint32_t result, void* p_data );
+ 
+	mb_type           m_type = mb_type::ok;
+	callback_fn       m_callback;
+	callback_fn       m_center_callback;
+ 
+	void*             m_data;
+	const wchar_t*    m_string;
+	std::uint16_t     m_max_chars = 256u;
+	std::uint32_t     m_input_mode = mb_input_mode_all;
+	bool              m_use_password;
+	std::int32_t      m_edit_offset_x;
+	std::int32_t      m_edit_offset_y;
+ 
+	std::int32_t      m_id_title;
+	std::int32_t      m_id_button_1 = mb_button_ok;
+	std::int32_t      m_id_button_2;
+	std::int32_t      m_id_button_3;
+ 
+	mb_msg_sound_type m_sound_type = mb_msg_sound_type::normal;
+	std::uint32_t     m_shutdown_time;
+	std::uint32_t     m_text_flag;
+	void*             m_multi_ctrl;
+	std::uint32_t     m_modal = 1u;
+};
+
+
+/*
+   setup game database
+*/
+sdk::engine::g_database = sdk::engine::c_database::get_instance( );
+ 
+/*
+   get game client shell interface
+*/
+sdk::cshell::g_game_client_shell = sdk::engine::g_database->get_interface( sdk::engine::interface_client_shell );
+ 
+/*
+   get interface manager
+*/
+sdk::cshell::g_interface_mgr = sdk::cshell::g_game_client_shell->get_interface_mgr( );
+ 
+/*
+   get xml popup manager
+*/
+sdk::cshell::g_popup_mgr = &sdk::cshell::g_interface_mgr->m_popup_mgr;
+
+
+/*
+  CXMLPopupMgr::ShowMessageBox signature
+*/
+using show_message_box_fn = void (__thiscall*)( c_xml_popup_mgr*, const wchar_t* p_string, const c_mb_create& p_create, std::uint8_t font_size, std::uint32_t default_return );
+...
+void show_message_box( const std::wstring_view& string, const c_mb_create& mb )
+{
+	reinterpret_cast< show_message_box_fn >( 0x0 )( this, string.data( ), mb, 0u, 1u );
+}
+
+sdk::cshell::g_popup_mgr->show_message_box( L"Hello UC", sdk::cshell::c_mb_create{} );
+
+
+void __cdecl load_string_w::hook(
+	std::int32_t message_code,
+	wchar_t* output,
+	std::int32_t max_output_len
+)
+{
+	/*
+	   this is our custom caption id
+	*/
+	if ( message_code <= -1 )
+	{
+		/*
+		   think a bit how you can get a string using a negative index and you will be fine here :)
+		*/
+		constexpr std::wstring_view caption{ L"Our caption" };
+ 
+		/*
+		   caption data and size
+		*/
+		const auto caption_data{ caption.data( ) };
+		const auto caption_size{ caption.size( ) };
+ 
+		/*
+		   the output is an array of 256 wchar_t
+		*/
+		if ( caption_size < max_output_len )
+		{ 
+			wcsncpy_s( 
+				output,
+				max_output_len, 
+				caption_data,
+				caption_size
+			);
+ 
+			return;
+		}
+ 
+		/*
+		   if we can't handle the custom value,
+		   let's just reset it to IDS_CUSTOM
+		*/
+		message_code = 0;
+	}
+ 
+	/*
+	   it's not a custom caption we're looking for, let's continue
+	*/
+	original( message_code, output, max_output_len );
+}
+
+sdk::cshell::c_mb_create mb{};
+ 
+/*
+  our custom id
+*/
+mb.m_id_title = -1;
+ 
+sdk::cshell::g_popup_mgr->show_message_box( L"Hello UC", mb );

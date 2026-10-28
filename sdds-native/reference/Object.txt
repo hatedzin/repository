@@ -1,0 +1,55 @@
+// Client (Engine.exe)
+namespace client_t {
+	//
+	// Member
+	//
+	inline  constexpr auto m_user_data    = 0x68u;
+	inline  constexpr auto m_id           = 0x6Cu;
+	inline  constexpr auto m_name         = 0x7Cu;
+	inline  constexpr auto m_client_flags = 0x78u;
+	inline  constexpr auto m_oid          = 0xA4u;
+}
+ 
+// CCBAGameServerShell
+namespace c_game_server_shell {
+	//
+	// Member
+	//
+	inline  constexpr auto m_clients                  = 0x194u;
+	inline  constexpr auto m_single_play              = 0x3AC84;
+	inline  constexpr auto m_ai_freeze                = 0x3ACE0;
+ 
+	//
+	// Method (RVA)
+	//
+	inline  constexpr auto on_server_initialized      = 0x00047660;
+	inline  constexpr auto on_server_term             = 0x00135CC0;
+	inline  constexpr auto update                     = 0x00573C0;
+	inline  constexpr auto cheat_god                  = 0x012DDB0;
+}
+ 
+// CCBAPlayerObj
+namespace c_player {
+	//
+	// Member
+	//
+	inline  constexpr auto m_godmode                = 0xE9Cu;
+	inline  constexpr auto m_net_client_data        = 0x19E8u;
+ 
+	//
+	// Method (RVA)
+	//
+	inline  constexpr auto toggle_godmode      = 0x000E5FE0u;
+	inline  constexpr auto update			   = 0x0006E370u;
+	inline  constexpr auto update_fall_damage  = 0x000EAE30u;
+}
+ 
+//
+// Method (RVA)
+//
+inline  constexpr auto spawn_object  = 0x00168570u;
+ 
+//
+// Unsigned int (RVA)
+//
+inline  constexpr auto infinite_ammo = 0x004FA050u;

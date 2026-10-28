@@ -1,0 +1,129 @@
+// AnimTimeRef
+namespace anim_time_ref_t {
+	//
+	// Member
+	//
+	inline  constexpr auto m_model_shared{ 0x0004u };
+	inline  constexpr auto m_previous	 { 0x0008u };
+	inline  constexpr auto m_current	 { 0x00010u };
+}
+ 
+// LTAnimTracker
+namespace anim_tracker_t {
+	//
+	// Member
+	//
+	inline  constexpr auto m_link					{ 0x0000u };
+	inline  constexpr auto m_interpolation_ms		{ 0x0016u };
+	inline  constexpr auto m_rate_modifier			{ 0x0018u };
+	inline  constexpr auto m_rate_interpolation		{ 0x001Cu };
+	inline  constexpr auto m_rate_interpolation_sum	{ 0x0020u };
+	inline  constexpr auto m_time_ref				{ 0x0024u };
+	inline  constexpr auto m_id						{ 0x0048u };
+}
+ 
+// CLTClient
+namespace c_client {
+	//
+	// Virtual method ( index )
+	//
+	inline  constexpr auto get_engine_var                                    { 0x001Bu };
+	inline  constexpr auto get_time                                          { 0x001Fu };
+	inline  constexpr auto get_time_ms                                       { 0x0020u };
+	inline  constexpr auto get_frame_time                                    { 0x0021u };
+	inline  constexpr auto get_frame_time_ms                                 { 0x0022u };
+	inline  constexpr auto remove_object                                     { 0x0024u };
+	inline  constexpr auto get_anim_index	                                 { 0x002Bu };
+	inline  constexpr auto set_object_pos                                    { 0x0035u };
+	inline  constexpr auto send_to_server                                    { 0x005Au };
+		
+	//
+	// Member
+	//
+	inline  constexpr auto intersect_segment                                 { 0x00000038u };
+	inline  constexpr auto cast_ray                                          { 0x00000040u };
+	inline  constexpr auto get_game_mode                                     { 0x00000050u };
+	inline  constexpr auto get_local_id                                      { 0x0000005Cu };
+	inline  constexpr auto is_connected                                      { 0x00000064u };
+ 
+	inline  constexpr auto get_console_var                                   { 0x000000DCu };
+ 
+	inline  constexpr auto get_game_time                                     { 0x000001CCu };
+	inline  constexpr auto get_game_time_ms                                  { 0x000001D0u };
+	inline  constexpr auto get_game_frame_time                               { 0x000001D4u };
+	inline  constexpr auto get_game_frame_time_ms                            { 0x000001D8u };
+	inline  constexpr auto get_visible_game_time                             { 0x000001DCu };
+	inline  constexpr auto get_visible_game_time_ms                          { 0x000001E0u };
+	inline  constexpr auto get_client_game_time                              { 0x000001E4u };
+	inline  constexpr auto get_client_game_time_ms                           { 0x000001E8u };
+	inline  constexpr auto get_client_player_movement_game_time_ms           { 0x000001ECu };
+ 
+	inline  constexpr auto run_console_string                                { 0x000001FCu };
+	inline  constexpr auto get_client_object                                 { 0x00000200u };
+	inline  constexpr auto create_object                                     { 0x00000210u };
+	inline  constexpr auto set_object_scale                                  { 0x00000218u };
+	inline  constexpr auto get_camera_fov                                    { 0x00000234u };
+	inline  constexpr auto set_camera_fov                                    { 0x00000238u };
+	inline  constexpr auto get_ping                                          { 0x00000388u };
+}
+ 
+// CD3DDrawPrim
+namespace c_draw_prim {
+	//
+	// Member
+	//
+	inline  constexpr auto m_viewport  { 0x3F38u };
+	inline  constexpr auto m_world     { 0x3F50u };
+	inline  constexpr auto m_view      { 0x3F90u };
+	inline  constexpr auto m_projection{ 0x3FD0u };
+}
+ 
+// ModelInstance
+namespace c_model_instance {
+	//
+	// Member
+	//
+	inline  constexpr auto m_anim_tracker                    { 0x01D8u };
+	inline  constexpr auto m_anim_trackers                   { 0x0258u };
+	inline  constexpr auto m_cached_transforms               { 0x7790u };
+	inline  constexpr auto m_cached_transform_info           { 0x7798u };
+	inline  constexpr auto m_string_key_call_back            { 0x779Cu };
+ 
+	//
+	// Method
+	//
+	inline  constexpr auto setup_node_path                   { image_base + 0x00071060u };
+	inline  constexpr auto update_cached_transforms_with_path{ image_base  + 0x000722E0u };
+	inline  constexpr auto force_update_cached_transforms    { image_base + 0x000721E0u };
+}
+ 
+// LTObject
+namespace c_object {
+	//
+	// Member
+	//
+	inline  constexpr auto m_flags                 { 0x0084u };
+	inline  constexpr auto m_flags2                { 0x0088u };
+	inline  constexpr auto m_user_flags            { 0x008Cu };
+	inline  constexpr auto m_surface               { 0x0090u };
+	inline  constexpr auto m_color_r               { 0x0094u };
+	inline  constexpr auto m_color_g               { 0x0095u };
+	inline  constexpr auto m_color_b               { 0x0096u };
+	inline  constexpr auto m_color_a               { 0x0097u };
+	inline  constexpr auto m_scale                 { 0x009Cu };
+	inline  constexpr auto m_object_id             { 0x00A8u };
+	inline  constexpr auto m_generation            { 0x00AAu };
+	inline  constexpr auto m_object_type           { 0x00ACu };
+	inline  constexpr auto m_radius                { 0x00B4u };
+	inline  constexpr auto m_dims                  { 0x00B8u };
+	inline  constexpr auto m_mass                  { 0x00C4u };
+	inline  constexpr auto m_pos                   { 0x00C8u };
+	inline  constexpr auto m_rot                   { 0x00D4u };
+	inline  constexpr auto m_vel                   { 0x00E4u };
+	inline  constexpr auto m_global_force_override { 0x00F0u };
+	inline  constexpr auto m_friction_coefficient  { 0x00FCu };
+	inline  constexpr auto m_accel                 { 0x0100u };
+	inline  constexpr auto m_force_ignore_limit_sqr{ 0x012Cu };
+	inline  constexpr auto m_internal_flags        { 0x0138u };
+	inline  constexpr auto m_sd                    { 0x01CCu };
+}

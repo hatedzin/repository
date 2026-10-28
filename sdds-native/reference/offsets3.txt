@@ -1,0 +1,577 @@
+class cWeaponSet
+{
+public:
+	char pad_0000[568]; //0x0000
+	class cCharModelInfoMgr* pModel; //0x0238
+	char pad_023C[1604]; //0x023C
+}; //Size: 0x0880
+ 
+class cCharModelInfoMgr
+{
+public:
+	char pad_0000[724]; //0x0000
+	int32_t nZombie; //0x02D4
+	char pad_02D8[364]; //0x02D8
+}; //Size: 0x0444
+ 
+VOID HpHack() {
+	cWeaponSet* pWeaponSet = (cWeaponSet*)dwWeaponSet;
+	pWeaponSet->pModel->nZombie = 61;
+}
+ 
+dwWeaponSet: B9 ?? ?? ?? ?? C7 44 24 ?? 00 00 00 00 E8 ?? ?? ?? ?? 68 ?? ?? ?? ?? E8 ?? ?? ?? ?? 83 C4 04 B8 ?? ?? ?? ?? 8B 4C 24 04 64 89 0D ?? ?? ?? ?? 59 83 C4 0C C3 CC CC CC CC CC CC CC CC CC 83 EC 10
+
+#pragma once // Include Guard
+#define M_PI 3.14159265358979323846f
+#define PlayerByIndex	    0x371B92E0 //
+#define ClientInfoMgr		0x3840BAEC
+#define LocalPlayer			0x371BA2D0 
+#define PlayerManager		0x38452E7C //
+#define DegToRad(degree) ((degree) * (3.141592654f / 180.0f))
+#define YAW 1
+#define PITCH 0
+class _Object
+{
+public:
+	CHAR Pad[4];
+	D3DXVECTOR3 origin;
+};
+class cClientWeapon;
+class PlayerInfo
+{
+public:
+	__int32 Unknown0;
+	__int32 index;
+	__int32 Unknown1;
+	__int32 Unknown2;
+	CHAR Name[12];
+	CHAR unknown3[12];
+	_Object *obj;
+	CHAR unknown4[68];
+	__int32 Team;
+	__int32 unknown5;
+	__int8 IsDead;
+};	
+class cClientWeaponMgr
+{
+public:
+ 
+	cClientWeapon** WeaponList;   //0000
+	__int32 MaxWeapons;			  //0004
+	__int32 WeapIndex;			  //0008
+	cClientWeapon* CurrentWeapon; //000C
+	BYTE WeaponsEnabled;		  //0010
+	BYTE WeaponsVisible;		  //0011	
+	char unknown16[20];
+	__int32 nCurrentWeaponID;	 //0x0024
+};
+class cPlayerMgr
+{
+public:
+	char pad[24];
+	cClientWeaponMgr* WeaponMgr; //0018
+	char unknown0[48];
+	float Pitch; //0048
+	float Yaw; //004C
+	float Roll;
+	char unknown3[220];
+	int* CameraObject; //012C
+	__inline cClientWeapon* GetCurrentWeapon()
+	{
+		if (WeaponMgr && WeaponMgr->CurrentWeapon)
+			return WeaponMgr->CurrentWeapon;
+ 
+		return NULL;
+	}
+};
+extern float FindDistance(D3DXVECTOR3 my, D3DXVECTOR3 other, PlayerInfo * pPlayer, PlayerInfo * pLocal);
+float FindDistance(D3DXVECTOR3 my, D3DXVECTOR3 other, PlayerInfo *pPlayer, PlayerInfo *pLocal)
+{
+	return sqrt((pLocal->obj->origin.x - pPlayer->obj->origin.x) * (pLocal->obj->origin.x - pPlayer->obj->origin.x) +
+		(pLocal->obj->origin.y - pPlayer->obj->origin.y) * (pLocal->obj->origin.y - pPlayer->obj->origin.y) +
+		(pLocal->obj->origin.z - pPlayer->obj->origin.z) * (pLocal->obj->origin.z - pPlayer->obj->origin.z));
+}
+D3DXVECTOR3 MyGetObjectMaxPos(int *obj)
+{
+	return *(D3DXVECTOR3*)(obj + 0x4);
+}
+ 
+void VectorAngles(const float* forward, float* angles)
+{
+	float tmp, yaw, pitch;
+ 
+	if (forward[2] == 0 && forward[0] == 0)
+	{
+		yaw = 0;
+ 
+		if (forward[2] > 0)
+			pitch = 90;
+		else
+			pitch = 270;
+ 
+	}
+	else {
+ 
+		yaw = (atan2(forward[2], -forward[0]) * 180 / M_PI) - 90;
+ 
+		if (yaw < 0)
+			yaw += 360;
+ 
+		tmp = sqrt(forward[0] * forward[0] + forward[2] * forward[2]);
+		pitch = (atan2(forward[1], tmp) * 180 / M_PI);
+ 
+		if (pitch < 0)
+			pitch += 360;
+	}
+ 
+	angles[0] = -pitch;
+	angles[1] = yaw;
+	angles[2] = 0;
+}
+ 
+void GetAngleToTarget(D3DXVECTOR3 vTargetPos, D3DXVECTOR3 vCameraPos, D3DXVECTOR3& vAngles)
+{
+	D3DXVECTOR3 vDelta;
+	vDelta.x = vTargetPos.x - vCameraPos.x;
+	vDelta.y = vTargetPos.y - vCameraPos.y;
+	vDelta.z = vTargetPos.z - vCameraPos.z;
+ 
+	VectorAngles((float*)&vDelta, (float*)&vAngles);
+ 
+	if (vAngles.x > 180.0f)
+		vAngles.x -= 360.0f;
+	else if (vAngles.x < -180.0f)
+		vAngles.x += 360.0f;
+ 
+	if (vAngles.y > 180.0f)
+		vAngles.y -= 360.0f;
+	else if (vAngles.y < -180.0f)
+		vAngles.y += 360.0f;
+}
+ 
+int GetClosestPlayer()
+{
+	float fNearest = (float)INT_MAX;
+	int iAimAt = -1;
+	typedef PlayerInfo* (__thiscall *lpGetPlayerByIndex)(unsigned long ulThis, int index, int unk);
+	lpGetPlayerByIndex GetPlayerByIndex;
+	GetPlayerByIndex = (lpGetPlayerByIndex)(PlayerByIndex);
+	unsigned long ulThis = *(unsigned long*)(ClientInfoMgr);
+	typedef PlayerInfo* (__thiscall *lpGetLocalPlayer)(unsigned long ulThis);
+	lpGetLocalPlayer GetLocalPlayer;
+	GetLocalPlayer = (lpGetLocalPlayer)(LocalPlayer);
+	for (int i = 0; i < 16; i++)
+	{
+		D3DXVECTOR3 Pos, MyPos;
+		PlayerInfo* pPlayer = GetPlayerByIndex(ulThis, i, 0);
+		PlayerInfo* pLocal = GetLocalPlayer(ulThis);
+		if (pPlayer != 0 && pPlayer->obj != 0 && pPlayer->IsDead == 0)
+		{
+			if (pLocal->Team != pPlayer->Team)
+			{
+				Pos = MyGetObjectMaxPos((int*)pPlayer->obj);
+				MyPos = MyGetObjectMaxPos((int*)pLocal->obj);
+ 
+				if (((FindDistance(MyPos, Pos, pPlayer, pLocal)) / 10) < fNearest)
+				{
+					iAimAt = i;
+					fNearest = (FindDistance(MyPos, Pos, pPlayer, pLocal)) / 10;
+				}
+			}
+		}
+	}
+	return iAimAt;
+}
+ 
+ 
+cPlayerMgr*			pPlayerManager;
+typedef PlayerInfo *(__thiscall *lpGetPlayerByIndex)(unsigned long ulThis, INT index, INT unk);
+lpGetPlayerByIndex GetPlayerByIndex;
+typedef PlayerInfo *(__thiscall *lpGetLocalPlayer)(unsigned long ulThis);
+lpGetLocalPlayer GetLocalPlayer;
+void doaimbot(float Bone) // Participaçao -> PashaAmd , Benney1337 , We11ington & Chaos Magician
+{
+	if (GetAsyncKeyState(VK_LBUTTON) < 0) {
+		int i = GetClosestPlayer();
+		pPlayerManager = *(cPlayerMgr **)PlayerManager;
+		GetPlayerByIndex = (lpGetPlayerByIndex)PlayerByIndex;
+		unsigned long ulThis = *(unsigned long *)ClientInfoMgr;
+		GetLocalPlayer = (lpGetLocalPlayer)LocalPlayer;
+		PlayerInfo* pLocal = GetLocalPlayer(ulThis);
+		if (i != -1) {
+			PlayerInfo* pPlayer = GetPlayerByIndex(ulThis, i, 0);
+			D3DXVECTOR3 Position;
+			GetAngleToTarget((MyGetObjectMaxPos((int*)pPlayer->obj)), (MyGetObjectMaxPos((int*)pLocal->obj)), Position);
+			pPlayerManager->Yaw = DegToRad(Position[YAW]);
+			pPlayerManager->Pitch = DegToRad(Position[PITCH] + Bone);
+		}
+	}
+}
+ 
+ 
+ 
+ 
+ 
+// Função principal do aimbot
+DWORD WINAPI Main(LPVOID lpParam)
+{
+	while (true) {
+		// Verifica se a tecla Delete foi pressionada
+		if (GetAsyncKeyState(VK_DELETE) & 0x8000) {
+			// Tecla Delete pressionada, ativa o aimbot
+			doaimbot(0.0f); // Coloque o ângulo desejado para o aimbot aqui
+		}
+ 
+		// Aguarda um curto período antes de verificar novamente (opcional)
+		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+	}
+ 
+	return 0;
+}
+ 
+ 
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+{
+	switch (ul_reason_for_call)
+	{
+	case DLL_PROCESS_ATTACH:
+		// Desabilita chamadas de função em threads
+		DisableThreadLibraryCalls(hModule);
+ 
+		// Cria uma nova thread para controlar a ativação/desativação da correção de mira
+		CreateThread(nullptr, 0, Main, nullptr, 0, nullptr);
+		break;
+ 
+	case DLL_PROCESS_DETACH:
+		// Nada a fazer no encerramento
+		break;
+	}
+ 
+	return TRUE;
+}
+
+
+#include <Windows.h>
+#include <d3d9.h>
+#include <d3dx9.h>
+#pragma comment(lib, "d3d9.lib")
+#pragma comment(lib, "d3dx9.lib")
+#define ADDR_DIPENGINE        0x654F6D // CAC 02/03/24 (DD/MM/YY)
+//#define ADDR_DIPENGINE       0x64B82D // CABR 02/03/24 (DD/MM/YY)
+ 
+DWORD retDipEngine = ADDR_DIPENGINE + 0x7;//Retornar Dip
+PDIRECT3DVERTEXBUFFER9 pStreamData;
+UINT iOffsetInBytes, Stride, NumVertices, PrimitiveCount;
+ 
+bool OnChams = false;
+
+auto __fastcall hk_update_weapon_model( c_player_mgr* self, void* ) -> void
+{
+	//
+	// select target, set rotation, etc.
+	//
+	g_aimbot.update( );
+ 
+	//
+	// call original UpdateWeaponModel
+	//
+	original( self );
+ 
+	//
+	// reset stuffs
+	//
+	g_aimbot.post_update( );
+}"
+
+//
+// current camera info (pos and rotation)
+//
+vec3& eye_pos{ sdk::g_player_mgr->get_eye_pos( ) }; // return m_camera->m_pos;
+auto& eye_rot{ sdk::g_player_mgr->get_eye_rot( ) }; // return m_camera->m_rot;
+ 
+//
+// backup camera rotation, to reset within the call to post_update
+//
+m_old_eye_rot = eye_rot;
+ 
+//
+// look at forward ( directional vector )
+//
+eye_rot.look_at(
+	( bone_pos - eye_pos ).normalized()
+);
+
+"void quaternion::look_at( const vec3& forward )
+{
+	const vec3 axis{ forward.cross( vec3::forward( ) ).normalized( ) };
+	const float angle{ std::acos( forward.dot( vec3::forward( ) ) ) };
+ 
+	const float half_angle{ angle * 0.50f };
+	const float sin_angle{ std::sin( half_angle ) };
+ 
+	m_x = axis.m_x * sin_angle;
+	m_y = axis.m_y * sin_angle;
+	m_z = axis.m_z * sin_angle;
+	m_w = std::cos( half_angle );
+}"
+
+#include <array>
+#include <iostream>
+#include <windows.h>
+ 
+int main() {
+	/**
+	 * get handle to game window
+	 */
+	HWND window_handle{ ::FindWindowA( nullptr, "Combat_Arms" ) };
+	if ( window_handle == nullptr ) {
+		return EXIT_FAILURE;
+	}
+ 
+	/**
+	 * get the identifier of the process that created the window
+	 */
+	DWORD pid{};
+	if ( !::GetWindowThreadProcessId( window_handle, &pid ) ) {
+		return EXIT_FAILURE;
+	}
+ 
+	/**
+	 * get handle with access to write and perform an operation on the address space of a process
+	 */
+	HANDLE handle{ ::OpenProcess( PROCESS_VM_WRITE | PROCESS_VM_OPERATION, FALSE, pid ) };
+	if ( handle == nullptr ) {
+		return EXIT_FAILURE;
+	}
+ 
+	/**
+	 * our shellcode could be std::uint64_t{ 0x909000000000BA } and sizeof(std::uint64_t) - 1
+	 */
+	static constexpr std::array< char, 7u > shellcode{
+		'\xBA', '\x00', '\x00', '\x00', '\x00',	// mov edx, 0
+		'\x90', '\x90'							// nop nop
+	};
+ 
+	/**
+	 * you can find the address yourself...
+	 */
+	LPVOID address{ reinterpret_cast< LPVOID >( 0x00000000 ) };
+ 
+	/**
+	 * change the page protection to be able to write and save the old protection
+	 */
+	DWORD old_protect{};
+	if ( ::VirtualProtectEx( handle, address, shellcode.size(), PAGE_EXECUTE_READWRITE, &old_protect ) ) {
+ 
+		/**
+		 * write our shellcode at the beginning of the instruction
+		 */
+		if ( !::WriteProcessMemory( handle, address, shellcode.data(), shellcode.size(), nullptr ) ) {
+			std::cout << "failed to write shellcode..." << std::endl;
+		}
+ 
+		/**
+		 * restore page protection
+		 */
+		::VirtualProtectEx( handle, address, shellcode.size(), old_protect, &old_protect );
+	}
+ 
+	::CloseHandle( handle );
+ 
+	std::cin.clear();
+	std::cin.get();
+}"
+
+
+// CLTModelClient::SetAnimRate
+std::uint32_t __fastcall hk_set_anim_rate(
+	void* self,	void*,
+	sdk::c_model_instance* object,
+	std::uint8_t tracker_id,
+	float rate
+)
+{
+	// get current weapon
+	if ( auto weapon{ sdk::g_player_mgr->get_current_weapon( ) } )
+	{
+		// the object is our weapon?
+		if ( weapon->m_object == object )
+		{
+			// get the animation tracker
+			if ( auto p_anim_tracker{ weapon->m_object->get_tracker( tracker_id ) } )
+			{
+				// get the animation id
+				const std::uint32_t anim{ p_anim_tracker->current_anim( ) };
+ 
+				// ...
+				const bool is_fire_anim{
+					anim == weapon->m_dry_fire_ani ||
+					anim == weapon->m_fire_ani ||
+					anim == weapon->m_alt_fire_ani ||
+					anim == weapon->m_pre_fire_ani ||
+					anim == weapon->m_post_fire_ani
+				};
+ 
+				// change our rate if it is the animation we want
+				if ( is_fire_anim )
+				{
+					rate = ...; // -1.0f ~ 0.0 ~ 1.0f (+1.0 to speed up animation)
+				}
+			}
+		}
+	}
+ 
+	return original_set_anim_rate( self, object, tracker_id, rate );
+}
+get_tracker function:
+Code:
+inline constexpr std::uint8_t MAIN_TRACKER{ 0xffu };
+...
+inline anim_tracker_t* get_tracker( const std::uint8_t tracker_id ) const
+{
+	if ( tracker_id == MAIN_TRACKER )
+	{
+		return &m_anim_tracker;
+	}
+ 
+	for ( auto curr{ m_anim_trackers }; curr; curr = curr->get_next( ) )
+	{
+		if ( curr->m_id == tracker_id )
+		{
+			return curr;
+		}
+	}
+ 
+	return nullptr;
+}
+
+
+inline std::uint32_t current_anim( ) const noexcept 
+{
+	return m_time_ref.m_current.m_anim;
+}
+
+
+class cWeapon
+{
+public:
+	char pad_0x0000[0x8]; //0x0000
+	__int32 nClientWeaponType; //0x0008 
+	char pad_0x000C[0x270]; //0x000C
+	__int32 bInfiniteAmmo; //0x027C 
+	char pad_0x0280[0x30]; //0x0280
+	float fDynamicPerturbFactorJump; //0x02B0 
+	float fZoomTime; //0x02B4 
+	__int32 nMinPerturb; //0x02B8 
+	__int32 nMaxPerturb; //0x02BC 
+	__int32 nDuckPerturb; //0x02C0 
+	__int32 nDuckMovePerturb; //0x02C4 
+	__int32 nZoomedMinPerturb; //0x02C8 
+	__int32 nZoomedMaxPerturb; //0x02CC 
+	__int32 nRange; //0x02D0 
+	D3DXVECTOR3 vRecoil; //0x02D4 
+	char pad_0x02E0[0x24]; //0x02E0
+	__int32 nFireDelay; //0x0304 
+	float fFireAniRate; //0x0308 
+	char pad_0x030C[0x4]; //0x030C
+	float fPerturbIncSpeed; //0x0310 
+	float fPerturbDecSpeed; //0x0314 
+	char pad_0x0318[0x4]; //0x0318
+	float fZoomedPerturbIncSpeed; //0x031C 
+	float fZoomedPerturbDecSpeed; //0x0320 
+	char pad_0x0324[0x4]; //0x0324
+	float fBaseCamRecoilPitch; //0x0328 
+	float fBaseCamRecoilAccelPitch; //0x032C 
+	char pad_0x0330[0x18]; //0x0330
+	float fMaxRandomWag; //0x0348 
+	float fWhiteScreenDecl; //0x034C 
+	char pad_0x0350[0x4]; //0x0350
+	float fTripleShotMaxCamRecoilPitch; //0x0354 
+	float fTripleShotBaseCamRecoilPitch; //0x0358 
+	float fBaseCamBackJitter; //0x035C 
+	float fBackJitterRecover; //0x0360 
+	__int32 nTripleShotMinPerturb; //0x0364 
+	__int32 nTripleShotMaxPerturb; //0x0368 
+	float fTripleShotPerturbIncSpeed; //0x036C 
+	float fTripleShotPerturbDecSpeed; //0x0370 
+	char pad_0x0374[0x6C]; //0x0374
+	unsigned char bDisableCrosshair; //0x03E0 
+	char pad_0x03E1[0x1B]; //0x03E1
+	float fCameraSwayXFreq; //0x03FC 
+	float fCameraSwayYFreq; //0x0400 
+	char pad_0x0404[0x1C]; //0x0404
+	float fAirDropHeight; //0x0420 
+	__int32 nAirDropDelay; //0x0424 
+ 
+}; //Size=0x0428
+class cWeaponMgr
+{
+public:
+	char _0x0000[5600];
+	cWeapon** Weapons; //0x15E0 
+	__int32 WeaponCount; //0x15E4 
+};//Size=0x15EC
+
+
+cWeaponMgr* WepMgr = *(cWeaponMgr**)ADDR_WeaponMGR;
+ 
+if (Settings::Weapons::RapidFires)
+		{
+			if (WepMgr)
+			{
+				for (int i = 0; i < WepMgr->WeaponCount; i++)
+				{
+					cWeapon* Wep = WepMgr->Weapons[i];
+ 
+					if (Wep)
+					{
+ 
+						Wep->fFireAniRate = 1.0f; // put any float result, i personally put 1.0f cuz enough
+ 
+					}
+				}
+			}
+		}
+		else
+		{
+			if (WepMgr)
+			{
+				for (int i = 0; i < WepMgr->WeaponCount; i++)
+				{
+					cWeapon* Wep = WepMgr->Weapons[i];
+ 
+					if (Wep)
+					{
+ 
+						Wep->fFireAniRate = 0.0f;
+ 
+					}
+				}
+			}
+		}
+
+// ...
+const bool is_dash_anim{
+	anim == weapon->m_pre_dash_ani ||
+	anim == weapon->m_dash_ani ||
+	anim == weapon->m_post_dash_ani
+};
+ 
+// change our rate if it is the animation we want
+if ( is_dash_anim )
+{
+	rate = ...; // -1.0f ~ 0.0 ~ 1.0f
+}
+
+
+if ( weapon->m_weapon_type == sdk::weapon_type::knife )
+{
+	// ...
+}
+ 
+// or
+ 
+if ( weapon->m_weapon_type == sdk::weapon_type::sniper )
+{
+	// ...
+}

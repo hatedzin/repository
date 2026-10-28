@@ -1,0 +1,222 @@
+// ==================== BONE CACHE (evita recompilar arrays) ====================
+static const int BonesFar[12][2] = { {45,44}, {44,3}, {41,40}, {40,3}, {3,4}, {4,9}, {9,25}, {25,26}, {26,27}, {9,12}, {12,13}, {13,14} };
+static const int BonesNear[12][2] = { {56,55}, {55,3}, {52,51}, {51,3}, {3,4}, {4,8}, {8,34}, {34,35}, {35,36}, {8,21}, {21,22}, {22,23} };
+ 
+// ==================== GET NODE SEGURO ====================
+bool GetNodeSafe(void* Object, int nodeId, Transform* out)
+{
+    return pLTModel && Object && pLTModel->GetNodeTransform((INT*)Object, nodeId, out, TRUE) == 0;
+}
+ 
+// ==================== DRAW BONE 100% ESTÁVEL ====================
+void DrawBone_ImGui(void* Object, ImU32 baseColor, float health, bool spawnShield, ImDrawList* draw, LPDIRECT3DDEVICE9 pDevice)
+{
+    if (!Object || !draw || !pDevice || !pLTModel) return;
+ 
+    Transform Node1{}, Node2{};
+    if (!GetNodeSafe(Object, 44, &Node1) || !GetNodeSafe(Object, 45, &Node2)) return;
+ 
+    float dist = CalcularDistancia(Node1.Pos, Node2.Pos);
+    if (dist < 0.1f) return;
+ 
+    const int (*bonePairs)[2] = (dist > 21.0f) ? BonesFar : BonesNear;
+    int pairCount = 12;
+ 
+    // === CABEÇA (CÍRCULO) ===
+    Transform head{};
+    if (!GetNodeSafe(Object, 8, &head)) return;
+    head.Pos.y += 5.8f;
+ 
+    D3DXVECTOR3 head3D = head.Pos;
+    D3DXVECTOR3 headScr;
+    if (!WorldToScreen(pDevice, head3D, &headScr) || headScr.z < 0.1f) return;
+ 
+    ImVec2 headScreen(headScr.x, headScr.y);
+ 
+    // Círculo com HP e spawn shield
+    ImU32 circleCol = baseColor;
+    if (health > 66)       circleCol = IM_COL32(0, 255, 0, 255);
+    else if (health > 33)  circleCol = IM_COL32(255, 255, 0, 255);
+    else                   circleCol = IM_COL32(255, 0, 0, 255);
+ 
+    float radius = 4.0f;
+    if (spawnShield)
+    {
+        static float pulse = 0.0f;
+        pulse += ImGui::GetIO().DeltaTime * 3.0f;
+        if (pulse > 6.28318f) pulse -= 6.28318f;
+ 
+        float alpha = (sinf(pulse) * 0.5f + 0.5f) * 255.0f;
+        circleCol = (circleCol & 0x00FFFFFF) | ((ImU32)alpha << 24);
+        radius = 8.0f + sinf(pulse) * 2.0f;
+    }
+ 
+    // Glow + círculo
+    draw->AddCircle(headScreen, radius + 3.0f, IM_COL32(0, 0, 0, 180), 32, 3.0f);
+    draw->AddCircle(headScreen, radius + 2.0f, IM_COL32(255, 255, 255, 100), 32, 2.0f);
+    draw->AddCircle(headScreen, radius, circleCol, 32, 1.0f);
+ 
+    // === LINHAS DO ESQUELETO ===
+    for (int i = 0; i < pairCount; ++i)
+    {
+        Transform t1{}, t2{};
+        if (!GetNodeSafe(Object, bonePairs[i][0], &t1)) continue;
+        if (!GetNodeSafe(Object, bonePairs[i][1], &t2)) continue;
+ 
+        D3DXVECTOR3 s1{}, s2{};
+        if (!WorldToScreen(pDevice, t1.Pos, &s1)) continue;
+        if (!WorldToScreen(pDevice, t2.Pos, &s2)) continue;
+        if (s1.z < 0.1f || s2.z < 0.1f) continue;
+ 
+        ImVec2 p1(s1.x, s1.y);
+        ImVec2 p2(s2.x, s2.y);
+ 
+        draw->AddLine(p1, p2, IM_COL32(0, 0, 0, 255), 3.2f);
+        draw->AddLine(p1, p2, IM_COL32(255, 255, 255, 180), 2.0f);
+        draw->AddLine(p1, p2, baseColor, 1.4f);
+    }
+}
+ 
+// ==================== ESP PRINCIPAL (GetOverlayDrawList ONLY) ====================
+void DrawESP_ImGui(LPDIRECT3DDEVICE9 pDevice)
+{
+    if (!ValidarPonteiros()) { IniciarPonteiros(); return; }
+ 
+    ImDrawList* draw = ImGui::GetOverlayDrawList(); // <-- OBRIGATÓRIO no ImGui antigo
+    if (!draw) return;
+ 
+    cSFXMgr* SFXMgr = pGameClientShell->GetSFXMgr();
+    if (!ValidarPonteiro(SFXMgr)) return;
+ 
+    unsigned long ulThis = *(unsigned long*)(ADDR_CLIENTINFOMGR);
+    cPlayerInfo* pLocal = GetLocalPlayer(ulThis);
+ 
+    static int enemyCount = 0;
+    enemyCount = 0;
+ 
+    for (INT i = 0; i < SFXMgr->SFXList[SFX_CHARACTER].Num; ++i)
+    {
+        cCharacterFX* Player = (cCharacterFX*)SFXMgr->SFXList[SFX_CHARACTER].List[i];
+        if (!ValidarPonteiro(Player) || !ValidarPonteiro(Player->Object)) continue;
+ 
+        cPlayerInfo* pInfo = GetPlayerByIndex(ulThis, Player->Index);
+        if (!ValidarPonteiro(pInfo) || pInfo->pIsDead) continue;
+        if (pLocal && pInfo->pTeam == pLocal->pTeam) continue;
+ 
+        enemyCount++;
+ 
+        // === POSIÇÕES ===
+        Transform Head{}, Foot{};
+        if (!GetNodeSafe(Player->Object, 8, &Head)) continue;
+        if (!GetNodeSafe(Player->Object, 4, &Foot)) continue;
+ 
+        Head.Pos.y += 5.8f;
+        D3DXVECTOR3 Head3D = Head.Pos;
+        D3DXVECTOR3 Foot3D = Foot.Pos;
+        Foot3D.y -= 6.0f; // ajuste perfeito pro pé
+ 
+        D3DXVECTOR3 HScr{}, FScr{};
+        if (!WorldToScreen(pDevice, Head3D, &HScr) || HScr.z < 0.1f) continue;
+        if (!WorldToScreen(pDevice, Foot3D, &FScr) || FScr.z < 0.1f) continue;
+ 
+        ImVec2 Head2D(HScr.x, HScr.y);
+        ImVec2 Foot2D(FScr.x, FScr.y);
+ 
+        // === DISTÂNCIA E NOME ===
+        float dist = CalcularDistancia(ConverterPosicao(pPlayerManager->CameraObject), Head.Pos) / 100.0f;
+        char cDist[32]; sprintf_s(cDist, "%.0fm", dist);
+        char cName[256]; sprintf_s(cName, "%s", pInfo->pName);
+ 
+        // === CORES ===
+        bool visible = EstaVisivel(Head.Pos);
+        ImU32 col = Player->bSpawnSheild 
+            ? IM_COL32((int)(Esp_SpawColor[0]*255), (int)(Esp_SpawColor[1]*255), (int)(Esp_SpawColor[2]*255), 255)
+            : visible 
+                ? IM_COL32((int)(Esp_Visible[0]*255), (int)(Esp_Visible[1]*255), (int)(Esp_Visible[2]*255), 255)
+                : IM_COL32((int)(Esp_Enemy[0]*255), (int)(Esp_Enemy[1]*255), (int)(Esp_Enemy[2]*255), 255);
+ 
+        // === DESENHO ===
+        if (Names)    DrawESPName(Head2D, Foot2D, cName, col);
+        if (Distance) DrawESPDistance(Head2D, Foot2D, cDist, col);
+ 
+        if (Boxes)
+        {
+            switch (BoxTipos)
+            {
+                case 0: BoxBrakets(Head2D, Foot2D, col); break;
+                case 1: Box2D_Imgui(Head2D, Foot2D, col); break;
+                case 2: Box3DImgui((int)Head2D.x, (int)Head2D.y, (int)Foot2D.x, (int)Foot2D.y, dist * 2.0f, col); break;
+            }
+        }
+ 
+        if (Health)
+        {
+            Esp_VidaImgui(Head2D, Foot2D, (float)Player->wHealth);
+            DrawArmorBars(Head2D, Foot2D, (float)Player->wArmor);
+        }
+ 
+        if (Lines && pLocal && !pLocal->pIsDead)
+        {
+            ImVec2 start;
+            ImGuiIO& io = ImGui::GetIO();
+            switch (EspLines)
+            {
+                case 0: start = ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y - 30); break;
+                case 1: start = ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f); break;
+                case 2: start = ImVec2(io.DisplaySize.x * 0.5f, 30); break;
+                default: start = ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y - 30); break;
+            }
+            draw->AddLine(start, ImVec2(Foot2D.x, Foot2D.y + 3), col, 1.2f);
+        }
+ 
+        if (iBoneEsp)
+            DrawBone_ImGui(Player->Object, col, (float)Player->wHealth, Player->bSpawnSheild, draw, pDevice);
+    }
+ 
+    // === DEBUG OPCIONAL ===
+    //char buf[64]; sprintf_s(buf, "Inimigos: %d", enemyCount);
+    //draw->AddText(ImVec2(10, 10), IM_COL32(255,255,0,255), buf);
+}
+DrawRadar 2D
+
+Code:
+void DrawMiniRadar(LPDIRECT3DDEVICE9 pDevice)
+{
+	if (!ValidarPonteiros())
+	{
+		IniciarPonteiros();
+		return;
+	}
+ 
+	ImDrawList* draw = ImGui::GetOverlayDrawList();
+ 
+	// Tamanho e posição do radar
+	const float radarSize = 150.0f;
+	ImVec2 radarPos = ImVec2(20, 20);
+	ImVec2 radarCenter = ImVec2(radarPos.x + radarSize / 2, radarPos.y + radarSize / 2);
+ 
+	// Desenha a base do radar
+	draw->AddRectFilled(radarPos, ImVec2(radarPos.x + radarSize, radarPos.y + radarSize), IM_COL32(30, 30, 30, 200));
+	draw->AddRect(radarPos, ImVec2(radarPos.x + radarSize, radarPos.y + radarSize), IM_COL32(255, 255, 255, 200));
+ 
+	// Obtém jogador local
+	unsigned long ulThis = *(unsigned long*)(ADDR_CLIENTINFOMGR);
+	GetLocalPlayer = (lpGetLocalPlayer)ADDR_LOCALPLAYER;
+	cPlayerInfo* pLocal = GetLocalPlayer(ulThis);
+	if (!ValidarPonteiro(pLocal) || pLocal->pIsDead) return;
+ 
+	// Posição do jogador local
+	D3DXVECTOR3 localPos = ConverterPosicao((INT*)pLocal->pObject);
+ 
+	// SFX Manager
+	cSFXMgr* SFXMgr = pGameClientShell->GetSFXMgr();
+	if (!ValidarPonteiro(SFXMgr)) return;
+ 
+	for (INT i = 0; i < SFXMgr->SFXList[SFX_CHARACTER].Num; ++i)
+	{
+		cCharacterFX* Player = (cCharacterFX*)SFXMgr->SFXList[SFX_CHARACTER].List[i];
+		if (!ValidarPonteiro(Player) || !ValidarPonteiro(Player->Object)) continue;
+ 
+		GetPlayerByIndex = (lpGetPlayerByIndex)(ADDR_PLAYERBYINDEX);
+		cPlayerInfo* pPlayer = GetPlayerByIndex(ulThis, Player->Index);
+		if (!ValidarPonteiro(pPlayer) || pPlayer->pIsDead) continue;
