@@ -1,7 +1,9 @@
-Pacote completo: DisneyClient-completo.zip
+Inicio direto, sem janela de selecao:
 
-Este pacote substitui a necessidade de combinar os ZIPs anteriores. Extraia tudo, entre em DisneyClient-Completo e abra INICIAR_CLIENT.bat. Ja inclui DisneyClient/server.py, DisneyClient/requirements.txt e DisneyParser/main.py.
+Para uma instalacao existente, extraia DisneyClient-iniciar-direto.zip dentro da pasta DisneyClient-Completo e substitua os arquivos do iniciador. Depois abra somente INICIAR_CLIENT.bat. O pacote ja inclui a correcao do menu e a aplica automaticamente com backup. Nao precisa executar CORRIGIR_MENU.bat nem selecionar pastas.
 
-Requer Python 3.11+ e MySQL/XAMPP ligado. Se o banco disneyclient ainda nao existe, importe DisneyClient/setup_xampp.sql no phpMyAdmin uma vez. A primeira abertura instala dependencias e cria a configuracao local padrao; para outra senha/porta, ajuste DisneyClient/.env. O pacote nao inclui credenciais, bancos ou tokens anteriores; gere ou mantenha suas proprias licencas do backend.
+Para uma instalacao nova, extraia primeiro DisneyClient-completo.zip, depois aplique o pacote de inicio direto nessa pasta.
 
-A extracao e a estrutura do ZIP foram verificadas, e sete testes do iniciador passaram em Linux. Windows, Flash/AIR, a SWF remota atual e o login oficial nao foram testados. Um runtime Flash compativel ainda e necessario.
+Mantenha Python 3.11+ instalado e MySQL/XAMPP configurado e ligado. Na primeira abertura, dependencias podem precisar de internet. A execucao da SWF ainda exige runtime Flash compativel.
+
+Oito testes de descoberta automatica, aplicacao da atualizacao e inicio/encerramento dos servicos passaram em Linux. Windows e Flash/AIR nao foram executados neste ambiente.
