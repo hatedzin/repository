@@ -1,18 +1,18 @@
-DISNEYCLIENT COMPLETO — AUTOPLAY, WJ FLY E BOAS-VINDAS
+SDDS MENU RGB — PACOTE COMPLETO
 
-Baixe DisneyClient-Autoplay-WJ.zip neste repositorio.
-Feche o Adobe Flash e o INICIAR_CLIENT antigos, extraia o ZIP completo e abra INICIAR_CLIENT.bat.
-Use sua key no localhost e cole a URL gerada no Adobe_10.exe, como antes.
+Baixe Sdds-MENU-RGB.zip. Feche o Flash e o iniciador antigos, extraia o ZIP inteiro em uma pasta nova e abra INICIAR_CLIENT.bat.
+Use sua key no localhost e abra a URL gerada no Adobe_10.exe.
 
-O chat local mostra BEM VINDO AO SDDS CHEATS uma vez ao carregar o jogador.
-Bot > Autoplay (F2) reproduz rotas salvas; comece com delay reduzido 0.
-Jogador > role ate o final > WJ Fly [AoB] ativa/desativa o patch fornecido para Adobe_10.exe x86.
-O status informa se a assinatura esta ausente, duplicada ou se ocorreu um erro.
-A correcao que preserva a rede original continua incluida.
+Interface: Sdds MENU, bordas/titulo/aba com RGB animado. O texto amarelo Sdds CHEATS start foi removido. A montagem aguarda os objetos do jogo para evitar o erro 1009 da tela de login.
+Bot: permanece na aba Bot. REC grava seu proprio rato; clique REC novamente para encerrar e SAVE para guardar a rota. O salvamento preserva o mapa em que a gravacao comecou, mesmo apos a troca da rodada.
+As rotas pessoais sao combinadas com as compartilhadas. Mapa sem gravacao e conexao encerrada possuem status distintos.
+Peso do rato (%): substitui o controle antigo de reducao de massa, com 100% original. Ajusta massa/inercia por metodo nativo e restaura os valores ao desligar. O antigo L3v3 mode/banho e identificado como efeito visual.
+Velocidade: substituido o acesso antigo ao vetor de fisica; os campos sao validados e a opcao e desligada em caso de falha. Isso nao comprova que o servidor aceite velocidade modificada.
+WJ Fly: integrado a mesma caixa nativa das outras opcoes. A assinatura completa fornecida tem zero correspondencias no dump recebido; a incompatibilidade continua sem um AoB substituto verificado. Nenhum trecho parecido foi usado por suposicao.
 
-Validacao: 24 verificacoes ActionScript executadas em Ruffle com objetos simulados, 32 rotas reais decodificadas nesse runtime, estrutura das 2359 rotas conferida, nove testes do mecanismo nativo, seis da API e dois do parser. O loop de rede e ConnectionGuard permanecem identicos.
-As chamadas Win32 e o efeito do WJ Fly no Adobe_10.exe real, assim como a conclusao das rotas no servidor oficial, ainda precisam de teste no seu ambiente.
+Validacao: 40 verificacoes ActionScript em Ruffle com objetos simulados, 32 gravacoes reais decodificadas, envio HTTP de SAVE conferido, estrutura das 2359 rotas validada, combinacao de bases testada, simbolos derivados de duas SWFs e fluxo de bytecode verificado.
+Nao houve teste no Flash/Windows nem contra o servidor oficial. As chamadas Win32 e o efeito do AoB continuam sem validacao real.
 
-Leia AUTOPLAY-LEIA-ME.txt e WJ-E-BOAS-VINDAS.txt no pacote.
-O dump de memoria nao foi incluido nem publicado.
-SHA256 ZIP: 740852effb0d7f68a66f2891894056ec9c11e94daa55de9b7c79810004ca9b62
+Leia SDDS-MENU-LEIA-ME.txt e REC-E-MENU.txt no ZIP.
+Nenhum dump, senha ou token de sessao foi publicado.
+SHA256: 0684e17d8cb5e5b17e17ebf7c320a4817d17c89f2cbcfde8fb84052126a39aae
