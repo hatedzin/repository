@@ -1,9 +1,9 @@
-Inicio direto, sem janela de selecao:
+Pacote completo atual: DisneyClient-completo-com-menu.zip
 
-Para uma instalacao existente, extraia DisneyClient-iniciar-direto.zip dentro da pasta DisneyClient-Completo e substitua os arquivos do iniciador. Depois abra somente INICIAR_CLIENT.bat. O pacote ja inclui a correcao do menu e a aplica automaticamente com backup. Nao precisa executar CORRIGIR_MENU.bat nem selecionar pastas.
+Este pacote integra a correcao do menu e o iniciador direto no ZIP completo fornecido. Nao combine os ZIPs anteriores e nao execute CORRIGIR_MENU.bat.
 
-Para uma instalacao nova, extraia primeiro DisneyClient-completo.zip, depois aplique o pacote de inicio direto nessa pasta.
+Feche a instalacao antiga. Extraia o ZIP inteiro e abra somente DisneyClient-Completo/INICIAR_CLIENT.bat. Se o .bat for aberto sozinho, ele tenta localizar o ZIP com esse nome em Downloads e extrair automaticamente para LocalAppData/DisneyClientMenu-v1. Nao ha janela de selecao de pastas.
 
-Mantenha Python 3.11+ instalado e MySQL/XAMPP configurado e ligado. Na primeira abertura, dependencias podem precisar de internet. A execucao da SWF ainda exige runtime Flash compativel.
+Requer Python 3.11+, MySQL/XAMPP configurado e ligado e um runtime Flash compativel. Use a key do seu backend e o link local gerado apos autenticar. O menu tenta abrir ao carregar o jogo; ha tambem um botao Abrir menu. Erros de construcao sao exibidos dentro do jogo.
 
-Oito testes de descoberta automatica, aplicacao da atualizacao e inicio/encerramento dos servicos passaram em Linux. Windows e Flash/AIR nao foram executados neste ambiente.
+Integridade do arquivo, descoberta do projeto e alteracoes integradas foram verificadas. A extracao PowerShell no Windows, Flash/AIR e o login no servidor oficial continuam sem teste neste ambiente.
