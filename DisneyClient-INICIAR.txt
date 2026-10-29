@@ -1,18 +1,17 @@
-SDDS MENU RGB — PACOTE COMPLETO
+CORRECAO PONTUAL DA BASE DISNEYCLIENT-COMPLETO ENVIADA
 
-Baixe Sdds-MENU-RGB.zip. Feche o Flash e o iniciador antigos, extraia o ZIP inteiro em uma pasta nova e abra INICIAR_CLIENT.bat.
-Use sua key no localhost e abra a URL gerada no Adobe_10.exe.
+Baixe DisneyClient-correcao-fisica.zip.
+Feche o Flash e o iniciador antigos. Extraia o conteudo do ZIP na pasta do projeto atual, ao lado de INICIAR_CLIENT.bat, e abra APLICAR_CORRECAO.bat.
+O instalador verifica os hashes da base enviada, cria backup, atualiza seis arquivos e abre o iniciador normal. Uma base diferente e recusada antes da copia.
 
-Interface: Sdds MENU, bordas/titulo/aba com RGB animado. O texto amarelo Sdds CHEATS start foi removido. A montagem aguarda os objetos do jogo para evitar o erro 1009 da tela de login.
-Bot: permanece na aba Bot. REC grava seu proprio rato; clique REC novamente para encerrar e SAVE para guardar a rota. O salvamento preserva o mapa em que a gravacao comecou, mesmo apos a troca da rodada.
-As rotas pessoais sao combinadas com as compartilhadas. Mapa sem gravacao e conexao encerrada possuem status distintos.
-Peso do rato (%): substitui o controle antigo de reducao de massa, com 100% original. Ajusta massa/inercia por metodo nativo e restaura os valores ao desligar. O antigo L3v3 mode/banho e identificado como efeito visual.
-Velocidade: substituido o acesso antigo ao vetor de fisica; os campos sao validados e a opcao e desligada em caso de falha. Isso nao comprova que o servidor aceite velocidade modificada.
-WJ Fly: integrado a mesma caixa nativa das outras opcoes. A assinatura completa fornecida tem zero correspondencias no dump recebido; a incompatibilidade continua sem um AoB substituto verificado. Nenhum trecho parecido foi usado por suposicao.
+Esta atualizacao preserva o menu atual, configuracoes, keys, banco e tokens. Nao reaplica Sdds MENU RGB nem as demais alteracoes rejeitadas.
+O parser agora resolve os campos de direcao e o getter de velocidade ausentes na SWF enviada.
+Reduzir massa chama o ajuste nativo de massa/inercia em vez da rotina de movimento incorreta. Valor 2 significa 2% de reducao. A rotina restaura a massa ao desligar e suspende os efeitos ao pegar queijo ou sair da rodada, preservando mudancas feitas pelo proprio jogo.
+Os logs incluem contexto de fisica e saida da rodada com/sem queijo; isso nao classifica uma vitoria normal como morte.
 
-Validacao: 40 verificacoes ActionScript em Ruffle com objetos simulados, 32 gravacoes reais decodificadas, envio HTTP de SAVE conferido, estrutura das 2359 rotas validada, combinacao de bases testada, simbolos derivados de duas SWFs e fluxo de bytecode verificado.
-Nao houve teste no Flash/Windows nem contra o servidor oficial. As chamadas Win32 e o efeito do AoB continuam sem validacao real.
+Validacao: 23 verificacoes ActionScript em Ruffle com objetos simulados, extracao em tres SWFs incluindo a enviada, parser integrado com 135 simbolos, cinco testes de diagnostico e quatro de instalacao/backup/rollback. Somente os metodos originais 86/87 do loader mudaram, mais uma classe de suporte adicionada.
+Nao houve teste no Windows/Adobe_10.exe nem no servidor oficial. A causa do erro local foi corrigida, mas DC e morte na toca ainda exigem confirmacao no jogo.
+Teste somente Reduzir massa, valor 2, com outras opcoes desligadas. Se persistir, envie o novo logs-client/flash-diagnostics.jsonl.
 
-Leia SDDS-MENU-LEIA-ME.txt e REC-E-MENU.txt no ZIP.
-Nenhum dump, senha ou token de sessao foi publicado.
-SHA256: 0684e17d8cb5e5b17e17ebf7c320a4817d17c89f2cbcfde8fb84052126a39aae
+O projeto enviado, seu ambiente Python, logs, dump, credenciais e tokens nao foram publicados; apenas a atualizacao e seu codigo.
+SHA256 ZIP: ef78a1d3a4e96d770b2c42c8925a11e98c0a66e1c8c6c286a37bfcf801086354
