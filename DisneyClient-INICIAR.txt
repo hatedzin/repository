@@ -1,0 +1,7 @@
+Use DisneyClient-inicio-automatico.zip.
+
+Extraia todo o pacote na pasta que contem DisneyClient e DisneyParser. Com Python 3.11+ instalado e MySQL/XAMPP configurado e ligado, abra INICIAR_CLIENT.bat. A primeira abertura aplica a atualizacao com backup e instala dependencias; em seguida inicia parser e backend e abre o login.
+
+O parser usa o link de SWF do projeto e extrai simbolos automaticamente. A 158 enviada foi apenas um exemplo de teste. Este pacote substitui o modo fixo do arquivo DisneyClient-simbolos-158.zip anterior; nao use aquele pacote como atualizacao do jogo atual.
+
+A pagina ainda exige runtime Flash compativel. Windows/Flash/login no servidor oficial e o conteudo remoto atual nao foram testados neste ambiente. A extracao foi validada nas duas SWFs fornecidas; o iniciador foi testado com servicos locais em Linux.
