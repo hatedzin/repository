@@ -1,7 +1,9 @@
-Pacote completo atual: DisneyClient-Sdds-start.zip
+Pacote de correcao de rede: DisneyClient-correcao-DC.zip
 
-Examinei TFMClient-main.zip (Loader/Event.COMPLETE) e tfm-client-master.zip (host Flash ActiveX/FlashCall) como referencias de carregamento. O pacote atual mantem o fluxo localhost -> key -> URL no Adobe Flash Player e adiciona a sobreposicao amarela local Sdds CHEATS start no topo central apos o carregamento da SWF do jogo, antes de construir o menu.
+Feche o Adobe Flash Player e a janela INICIAR_CLIENT anteriores. Extraia o ZIP inteiro em uma pasta nova e abra somente INICIAR_CLIENT.bat. O iniciador verifica a identificacao do backend e rejeita reutilizar silenciosamente uma versao antiga ainda aberta.
 
-Feche a instalacao anterior, extraia o ZIP inteiro e abra apenas DisneyClient-Completo/INICIAR_CLIENT.bat. Sem selecao de pastas ou correcoes separadas. O menu de visual novo continua integrado. As AoBs novas nao foram aplicadas nesta edicao, que prioriza o teste de texto pedido.
+Esta edicao preserva os leitores de socket e timers originais do jogo. Os trechos legados que substituiam a leitura de rede e alteravam contadores/timers foram tornados inalcancaveis. O loop das opcoes registra falhas locais e listeners passivos tentam observar o fechamento dos sockets. A mensagem Sdds CHEATS start e o visual novo continuam integrados.
 
-Texto exato e literal de cor #FFFF00 confirmados no bytecode; somente swf_loaded foi alterado entre os metodos da versao anterior e seis corpos novos/alterados passaram na verificacao de pilha/escopo. Integridade do ZIP e inicio direto foram verificados. A exibicao no Windows/Flash e o login oficial continuam sem teste. O Flash Player 10 mostrado na imagem pode nao suportar o formato SWF do jogo atual.
+Os eventos ficam em logs-client/flash-diagnostics.jsonl, sem tokens, chat ou conteudo de pacotes. O endpoint exige sessao autenticada e conexao local. Autoplay e gravacao dependentes do interceptor antigo ainda precisam ser adaptados. A correcao nao foi testada no Windows/Flash nem contra o servidor oficial; o motivo exato do DC precisa de verificacao no ambiente do usuario.
+
+Validacao: somente os metodos swf_loaded/loop_game foram alterados entre os originais; 15 corpos novos/alterados tiveram limites de pilha/escopo verificados. O fluxo de bytecode confirma que os dois trechos antigos nao sao mais alcancados. Cinco testes do diagnostico, um de identificacao de versao e tres de inicio/atualizacao/encerramento passaram. Integridade do ZIP e manifesto conferidos.
