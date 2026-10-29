@@ -1,9 +1,18 @@
-Pacote de correcao de rede: DisneyClient-correcao-DC.zip
+DISNEYCLIENT COMPLETO — AUTOPLAY, WJ FLY E BOAS-VINDAS
 
-Feche o Adobe Flash Player e a janela INICIAR_CLIENT anteriores. Extraia o ZIP inteiro em uma pasta nova e abra somente INICIAR_CLIENT.bat. O iniciador verifica a identificacao do backend e rejeita reutilizar silenciosamente uma versao antiga ainda aberta.
+Baixe DisneyClient-Autoplay-WJ.zip neste repositorio.
+Feche o Adobe Flash e o INICIAR_CLIENT antigos, extraia o ZIP completo e abra INICIAR_CLIENT.bat.
+Use sua key no localhost e cole a URL gerada no Adobe_10.exe, como antes.
 
-Esta edicao preserva os leitores de socket e timers originais do jogo. Os trechos legados que substituiam a leitura de rede e alteravam contadores/timers foram tornados inalcancaveis. O loop das opcoes registra falhas locais e listeners passivos tentam observar o fechamento dos sockets. A mensagem Sdds CHEATS start e o visual novo continuam integrados.
+O chat local mostra BEM VINDO AO SDDS CHEATS uma vez ao carregar o jogador.
+Bot > Autoplay (F2) reproduz rotas salvas; comece com delay reduzido 0.
+Jogador > role ate o final > WJ Fly [AoB] ativa/desativa o patch fornecido para Adobe_10.exe x86.
+O status informa se a assinatura esta ausente, duplicada ou se ocorreu um erro.
+A correcao que preserva a rede original continua incluida.
 
-Os eventos ficam em logs-client/flash-diagnostics.jsonl, sem tokens, chat ou conteudo de pacotes. O endpoint exige sessao autenticada e conexao local. Autoplay e gravacao dependentes do interceptor antigo ainda precisam ser adaptados. A correcao nao foi testada no Windows/Flash nem contra o servidor oficial; o motivo exato do DC precisa de verificacao no ambiente do usuario.
+Validacao: 24 verificacoes ActionScript executadas em Ruffle com objetos simulados, 32 rotas reais decodificadas nesse runtime, estrutura das 2359 rotas conferida, nove testes do mecanismo nativo, seis da API e dois do parser. O loop de rede e ConnectionGuard permanecem identicos.
+As chamadas Win32 e o efeito do WJ Fly no Adobe_10.exe real, assim como a conclusao das rotas no servidor oficial, ainda precisam de teste no seu ambiente.
 
-Validacao: somente os metodos swf_loaded/loop_game foram alterados entre os originais; 15 corpos novos/alterados tiveram limites de pilha/escopo verificados. O fluxo de bytecode confirma que os dois trechos antigos nao sao mais alcancados. Cinco testes do diagnostico, um de identificacao de versao e tres de inicio/atualizacao/encerramento passaram. Integridade do ZIP e manifesto conferidos.
+Leia AUTOPLAY-LEIA-ME.txt e WJ-E-BOAS-VINDAS.txt no pacote.
+O dump de memoria nao foi incluido nem publicado.
+SHA256 ZIP: 740852effb0d7f68a66f2891894056ec9c11e94daa55de9b7c79810004ca9b62
