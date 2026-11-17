@@ -1,0 +1,17 @@
+# Correcao do erro 1056 - Rato leve e Auto Win
+
+O erro #1056 era provocado pela criacao de propriedades novas no MainTimeline, que e uma classe selada. O estado das novas funcoes agora fica em um Dictionary privado por instancia, sem acrescentar propriedades ao objeto principal. O teste de regressao reproduziu o erro no V3 anterior e passou na SWF corrigida; os testes de comportamento tambem usam uma classe selada.
+
+# Rato leve, Auto Win e Skin Changer
+
+Use INICIAR_TUDO.bat. No menu Jogador, ative Rato leve e arraste a barra de 0 a 100%. O valor inicial e 50%; o recurso inicia desligado. A intensidade ajusta a velocidade horizontal para o mesmo alvo com ou sem queijo. 0% preserva o movimento original. Nao altera gravidade, pulo, massa, posicao, pacotes ou os atributos do queijo. Nao empurra um rato parado nem substitui um impulso maior que o alvo. Ao desligar, restaura a ultima velocidade original se ela ainda nao tiver sido alterada pelo jogo. O teto local e duas vezes a velocidade horizontal padrao (100 pixels/s).
+
+Rato leve pausa durante Robot, gravacao e a sequencia do Auto Win para evitar mudancas no percurso. A taxa de FPS nao altera o alvo numerico da velocidade; a simulacao do proprio jogo ainda depende do Flash e do servidor.
+
+No Farm, Auto Win (queijo > toca) reutiliza o mecanismo de reposicionamento nativo que ja existe no client. Aguarda o Farm Time, procura o queijo e a toca no mapa atual, aproxima o rato do queijo e espera o atributo nativo confirmar a coleta. Somente depois aproxima da toca. Nao inventa queijo ou vitoria. Sao no maximo tres tentativas por etapa, com intervalo de um segundo e timeout de cinco segundos. Troca de mapa, desativacao, morte, Robot e gravacao cancelam a sequencia. A vitoria e reconhecida pelo pacote nativo 8,6 do jogador local. O servidor pode recusar reposicionamentos; nesse caso o recurso para e informa a ausencia de confirmacao.
+
+Ajustes: L3v3 mode foi renomeado para Skin Changer. As skins existentes foram mantidas. As quatro novas imagens ainda aguardam envio como arquivos PNG/ZIP.
+
+Atualizacao pequena: feche o iniciador e o Flash. Extraia o ZIP na pasta que contem INICIAR_CLIENT.bat, mantendo as subpastas e aceitando substituir os arquivos. O patch inclui uma copia em atualizacao/ para o iniciador aplicar depois da preparacao do pacote. Nao substitui banco, .env ou chave privada. O pacote completo V3 e uma alternativa para instalar em outra pasta; preserve suas configuracoes e seu banco se ja utiliza o portal.
+
+Validacao: 50 assercoes executadas em AS3 no Ruffle, com objetos de jogo controlados. Cobrem intensidade, teclado, queijo, velocidade horizontal, desativacao, direcoes, impulsos, pausa, FPS de 15/30/60/120, sequencia queijo/toca, confirmacao de vitoria, cancelamento, timeout, limite de tentativas e troca de mapa. Verificacao do bytecode: tres helpers acrescentados; somente o metodo original de inicializacao 86 mudou, para ligar os novos helpers. Os demais metodos existentes permaneceram identicos. Os testes nao comprovam aceitacao pelo servidor real nem execucao no Flash Player do Windows. Mais quatro verificacoes por mouse/teclado no navegador passaram: arraste ate 100%, arraste para fora ate 0%, clique em 50% e ajuste com seta. Um aviso de aceleracao grafica do emulador foi fechado antes das interacoes; isso nao modifica o client.
