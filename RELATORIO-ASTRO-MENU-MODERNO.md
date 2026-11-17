@@ -1,0 +1,17 @@
+# ASTRO V4 - menu, previa de skins e FPS
+
+Execute INICIAR_TUDO.bat. O menu dentro do Flash recebeu fundo grafite, detalhes vermelhos, icones vetoriais e fonte Segoe UI do Windows. Permanecem somente os nomes das abas, sem os subtitulos genericos. Os textos e controles ficam opacos; o controle Fundo altera apenas o desenho de fundo, de 90 a 100%. A transparencia antiga de 76% nao deixa mais os textos apagados.
+
+Em Ajustes, selecionar uma skin mostra sua previa ao lado, mesmo com Skin Changer desligado. Ative o circulo para aplica-la ao rato. As quatro imagens CJ, Big Smoke, Minecraft e Gragas continuam incluidas junto das quatorze antigas. A previa tem cache em memoria e ignora respostas antigas de carregamento quando outra skin ja foi selecionada. A lista e o painel possuem barras finas que aceitam arraste e clique. A roda do mouse tambem funciona.
+
+FPS: em Jogador, role ate o campo FPS alvo. O valor inicial e 120. Digite de 1 a 1000 e marque Forcar FPS alvo. Este modo verifica a taxa ao fim de cada frame e reaplica o pedido se o jogo a modificar. Ao desligar, restaura a taxa anterior. O modo FPS alvo permite solicitar a mesma faixa sem a verificacao adicional no fim do frame. O contador mostra os frames efetivamente observados; Pedido e Player indicam valores diferentes: a taxa solicitada e a leitura de stage.frameRate. Se o Player limitar ou recusar a taxa, o client nao inventa frames nem envia milhares de eventos falsos. Uma solicitacao recusada nao entra em repeticao de excecoes a cada frame.
+
+Nao ha garantia de 120 ou 1000 FPS reais: dependem do Flash Player, do renderizador e do computador. No Ruffle de teste, a propriedade aceitou 1000, mas a medicao real ficou muito abaixo desse numero. O cliente ainda nao foi testado no Flash Player do Windows nesta sessao. Comece com 120 e compare o contador medido.
+
+A logica existente de Robot, rotas, Follow, Auto Win e Rato leve foi preservada. O estado compartilhado de Rato leve continua fora da classe selada, mantendo a correcao do #1056. As imagens originais do Skins.zip permanecem byte por byte iguais. Backend, contas e configuracoes nao foram alterados nesta atualizacao.
+
+Instalacao completa: extraia DisneyClient-Completo-ASTRO-V4-Menu-Moderno-FPS.zip em outra pasta e execute INICIAR_TUDO.bat. Se ja usa o portal, preserve seu banco, .env e DisneyClient/.private/portal.key ao migrar suas configuracoes.
+
+Atualizacao pequena: feche o Flash e o iniciador. Extraia ATUALIZACAO-ASTRO-MENU-MODERNO.zip na pasta que contem INICIAR_CLIENT.bat, mantendo as pastas e aceitando substituir arquivos. O patch inclui copia em atualizacao/ para o iniciador aplicar depois da preparacao inicial. Reabra o Flash usando a URL autenticada atual; uma SWF antiga salva em outra pasta continua com o visual anterior. O patch nao substitui .env, banco ou chave privada.
+
+Validacao: 22 verificacoes com interacao real de mouse/teclado no navegador/Ruffle, incluindo seis abas, rolagem, barras arrastaveis, previa das quatro skins sem ativa-las, aplicacao ao avatar, restauracao, transparencia apenas do fundo, fechar/reabrir e janela de 640x480. Mais 24 assercoes de faixa de FPS, leitura do Player, recuperacao apos reset a 60 e medicao sem falsificacao; 50 de Rato leve/Auto Win; 30 de skins e ciclo de vida. O bytecode conserva todos os metodos anteriores, exceto o metodo original 86, onde quatro referencias ligam os novos helpers. Verificados limites de pilha/escopo de 144 metodos. Estes sao testes controlados, nao partidas reais no servidor.
