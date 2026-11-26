@@ -1,0 +1,26 @@
+name: Export ASTRO archive for analysis
+
+on:
+  push:
+    branches:
+      - chatgpt-export-astro-follow-20261126
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Stage archive
+        run: |
+          mkdir -p export
+          cp sla.zip export/ASTRO-V4-source.zip
+      - name: Upload archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: astro-v4-source
+          path: export/ASTRO-V4-source.zip
+          retention-days: 1
